@@ -30,9 +30,17 @@ app.get("/", (req, res) => {
     });
 });
 
+
+
 app.listen(3000);
 
 
+//ska denna va i mongo aggreggaiton
+// app.post("/create-order", async (req, res) => {
+//   req.body.name
+
+//   response.json({ "test": req.body.name });
+// });
 
 
 
