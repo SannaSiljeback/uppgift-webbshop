@@ -1,0 +1,7 @@
+get http://localhost:3000/
+
+###
+post http://localhost:3000/create-user
+
+###
+put http://localhost:3000/update-user
