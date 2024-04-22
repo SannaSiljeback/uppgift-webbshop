@@ -5,3 +5,10 @@ post http://localhost:3000/create-user
 
 ###
 put http://localhost:3000/update-user
+
+###
+post http://localhost:3000/create-product
+
+###
+
+put http://localhost:3000/update-product
