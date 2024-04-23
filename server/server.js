@@ -89,10 +89,10 @@ app.post("/create-product", async (req, res) => {
     await mongoose.connect(url).then(console.log("connected"));
 
     const product = new Products({
-      name: "ananas",
-      description: "en gul frukt",
+      name: "hippie duck",
+      description: "a duck with hippie theme",
       price: 45,
-      image: "https://images.pexels.com/photos/1161547/pexels-photo-1161547.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      image: "https://cdn.discordapp.com/attachments/1186060160528044146/1232342739027365908/sannas3261_a_rubber_duck_in_clipart_style_with_white_background_b8e70990-50d6-4789-a2e4-ab02ac675ec8.png?ex=66291c1c&is=6627ca9c&hm=20886f4147a0fdefd39810ff872d9f911f365ad3365b38994baaade4c8bb4ce1&",
       inStock: 55,
       status: "active",
     });

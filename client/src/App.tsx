@@ -1,24 +1,19 @@
 import { useEffect, useState } from 'react';
 import './App.css'
 import { Cart } from './components/Cart';
-
-interface IProduct {
-  _id: string;
-  name: string;
-  price: number;
-  image: string;
-}
+import { IProduct } from './models/IProduct';
+import { Admin } from './components/Admin';
 
 function App() {
   const [products, setProducts] = useState<IProduct[]>([]);
   const [cart, setCart] = useState<IProduct[]>([]);
+  
 
-  // Hämta produkter vid montering av komponenten
   useEffect(() => {
     fetchProducts();
-  }, []); // Använd en tom array som andra argument för att köra effekten en gång vid montering
+  }, []); 
 
-  // Fetch-anrop för att hämta produkter
+
   const fetchProducts = async () => {
     try {
       const response = await fetch("/api/");
@@ -45,15 +40,8 @@ function App() {
           </li>
         ))}
       </ul>
-      <Cart/>
-      <h3>Varukorg</h3>
-      <ul>
-        {cart.map((product) => (
-          <li key={product._id}>
-            {product.name} - {product.price} kr
-          </li>
-        ))}
-      </ul>
+      <Cart cart={cart}/>
+      <Admin />
     </>
   );
 }
