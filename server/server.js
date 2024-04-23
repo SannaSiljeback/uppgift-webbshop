@@ -8,7 +8,7 @@ const Customers = require("./models/customers");
 const Products = require("./models/products");
 const Orders = require("./models/orders");
 
-
+//är för admin
 app.get("/orders-with-details", async (req, res) => {
   try {
     await mongoose
@@ -69,19 +69,19 @@ app.get("/orders-with-details", async (req, res) => {
 });
 
 //PRODUKTER
-// hämtar produkter
-// app.get("/", async (req, res) => {
-//   try {
-//     await mongoose.connect(url).then(console.log("connected"));
+//hämtar produkter, färdig?
+app.get("/", async (req, res) => {
+  try {
+    await mongoose.connect(url).then(console.log("connected"));
 
-//     Products.find().then((result) => {
-//       res.send(result);
-//       mongoose.connection.close();
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
+    Products.find().then((result) => {
+      res.send(result);
+      mongoose.connection.close();
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 // Lägger till produkter
 app.post("/create-product", async (req, res) => {
@@ -89,12 +89,11 @@ app.post("/create-product", async (req, res) => {
     await mongoose.connect(url).then(console.log("connected"));
 
     const product = new Products({
-      _id: "321",
-      name: "test produkt 50",
-      description: "...",
-      price: 300,
-      image: "imgurl",
-      inStock: 50,
+      name: "ananas",
+      description: "en gul frukt",
+      price: 45,
+      image: "https://images.pexels.com/photos/1161547/pexels-photo-1161547.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      inStock: 55,
       status: "active",
     });
 
@@ -180,19 +179,19 @@ app.put("/update-order", async (req, res) => {
 
 
 //CUSTOMERS
-// Hämtar användare
-// app.get("/customers", async (req, res) => {
-//   try {
-//     await mongoose.connect(url).then(console.log("connected"));
+//Hämtar användare
+app.get("/customers", async (req, res) => {
+  try {
+    await mongoose.connect(url).then(console.log("connected"));
 
-//     Customers.find().then((result) => {
-//       res.send(result);
-//       mongoose.connection.close();
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
+    Customers.find().then((result) => {
+      res.send(result);
+      mongoose.connection.close();
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 // Lägger till användare
 app.post("/create-customer", async (req, res) => {
