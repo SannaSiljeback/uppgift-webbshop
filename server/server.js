@@ -8,20 +8,80 @@ const Customers = require("./models/customers");
 const Products = require("./models/products");
 const Orders = require("./models/orders");
 
-//PRODUKTER
-// hämtar produkter
-app.get("/", async (req, res) => {
-  try {
-    await mongoose.connect(url).then(console.log("connected"));
 
-    Products.find().then((result) => {
-      res.send(result);
-      mongoose.connection.close();
-    });
+app.get("/orders-with-details", async (req, res) => {
+  try {
+    await mongoose
+      .connect("mongodb://localhost:27017/shop")
+      .then(console.log("connected to database"));
+    const pipeline = [
+      {
+        $lookup: {
+          from: "lineItems",
+          localField: "orderId",
+          foreignField: "id",
+          as: "lineItems",
+          pipeline: [
+            {
+              $lookup: {
+                from: "products",
+                localField: "productId",
+                foreignField: "id",
+                as: "linkedProduct",
+              },
+            },
+            {
+              $addFields: {
+                linkedProduct: {
+                  $first: "$linkedProduct",
+                },
+              },
+            },
+          ],
+        },
+      },
+      {
+        $lookup: {
+          from: "customers",
+          localField: "customerId",
+          foreignField: "_id",
+          as: "linkedCustomer",
+        },
+      },
+      {
+        $addFields: {
+          linkedCustomer: {
+            $first: "$linkedCustomer",
+          },
+          calculatedTotal: {
+            $sum: "$lineItems.totalPrice",
+          },
+        },
+      },
+    ];
+
+    const ordersWithDetails = await Orders.aggregate(pipeline);
+    res.json(ordersWithDetails);
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
+
+//PRODUKTER
+// hämtar produkter
+// app.get("/", async (req, res) => {
+//   try {
+//     await mongoose.connect(url).then(console.log("connected"));
+
+//     Products.find().then((result) => {
+//       res.send(result);
+//       mongoose.connection.close();
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
 // Lägger till produkter
 app.post("/create-product", async (req, res) => {
@@ -66,18 +126,18 @@ app.put("/update-product", async (req, res) => {
 
 //ORDRAR
 //hämtar ordrar
-app.get("/orders", async (req, res) => {
-  try {
-    await mongoose.connect(url).then(console.log("connected"));
+// app.get("/orders", async (req, res) => {
+//   try {
+//     await mongoose.connect(url).then(console.log("connected"));
 
-    Orders.find().then((result) => {
-      res.send(result);
-      mongoose.connection.close();
-    });
-  } catch (error) {
-    console.log(error);
-  }
-});
+//     Orders.find().then((result) => {
+//       res.send(result);
+//       mongoose.connection.close();
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
 // Lägger till ordrar
 app.post("/create-order", async (req, res) => {
@@ -121,18 +181,18 @@ app.put("/update-order", async (req, res) => {
 
 //CUSTOMERS
 // Hämtar användare
-app.get("/customers", async (req, res) => {
-  try {
-    await mongoose.connect(url).then(console.log("connected"));
+// app.get("/customers", async (req, res) => {
+//   try {
+//     await mongoose.connect(url).then(console.log("connected"));
 
-    Customers.find().then((result) => {
-      res.send(result);
-      mongoose.connection.close();
-    });
-  } catch (error) {
-    console.log(error);
-  }
-});
+//     Customers.find().then((result) => {
+//       res.send(result);
+//       mongoose.connection.close();
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
 // Lägger till användare
 app.post("/create-customer", async (req, res) => {
