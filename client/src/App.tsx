@@ -30,7 +30,7 @@ function App() {
 
   return (
     <>
-      <h2>En trist webbshop</h2>
+      <h2>En kul webbshop</h2>
       <ul>
         {products.map((product) => (
           <li key={product._id}>
