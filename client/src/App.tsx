@@ -1,49 +1,53 @@
-import { useEffect, useState } from 'react';
-import './App.css'
-import { Cart } from './components/Cart';
-import { IProduct } from './models/IProduct';
-import { Admin } from './components/Admin';
+import { useEffect, useState } from "react";
+import "./App.css";
+import { Cart } from "./components/Cart";
+import { Admin } from "./components/Admin";
+import { IProduct } from "./models/IProduct";
+import { useCart } from "./context/CartContext";
 
 function App() {
   const [products, setProducts] = useState<IProduct[]>([]);
-  const [cart, setCart] = useState<IProduct[]>([]);
-  
+  const { addToCart } = useCart();
 
   useEffect(() => {
     fetchProducts();
-  }, []); 
-
+  }, []);
 
   const fetchProducts = async () => {
     try {
       const response = await fetch("/api/");
       const data = await response.json();
-      setProducts(data); 
+      setProducts(data);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
-  }
-
-  const addToCart = (product: IProduct) => {
-    setCart([...cart, product]);
-  }
+  };
 
   return (
     <>
       <h2>En kul webbshop</h2>
-      <ul>
+      <ul className="product-list">
         {products.map((product) => (
           <li key={product._id}>
-            <img src={product.image} style={{ width: '200px', height: 'auto' }} />
-            {product.name} - {product.price} kr
-            <button onClick={() => addToCart(product)}>kom och köp</button>
+            <div className="product-wrapper">
+              <img
+                src={product.image}
+                style={{ width: "200px", height: "auto" }}
+              />
+            </div>
+            <div className="product-info">
+              {product.name} - {product.price} kr
+              <button onClick={() => addToCart(product)}>
+                köp en rolig anka
+              </button>
+            </div>
           </li>
         ))}
       </ul>
-      <Cart cart={cart}/>
+      <Cart />
       <Admin />
     </>
   );
 }
 
-export default App
+export default App;
