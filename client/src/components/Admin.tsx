@@ -18,7 +18,7 @@ export const Admin = () => {
         },
         body: JSON.stringify(product),
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         console.log("Product added:", data);
