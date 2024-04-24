@@ -32,7 +32,7 @@ function App() {
             <div className="product-wrapper">
               <img
                 src={product.image}
-                style={{ width: "200px", height: "auto" }}
+                style={{ width: "150px", height: "auto" }}
               />
             </div>
             <div className="product-info">

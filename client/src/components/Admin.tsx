@@ -16,7 +16,7 @@ export const Admin = () => {
 
   return (
     <>
-      <h1>Admin</h1>
+      <h2>Admin</h2>
       <button onClick={handleToggleAddModal}>Add new Product</button>
       <AddProduct
         open={showAddModal}

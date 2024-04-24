@@ -8,7 +8,7 @@ const Customers = require("./models/customers");
 const Products = require("./models/products");
 const Orders = require("./models/orders");
 
-//är för admin
+//är för admin, hämtar ordrar med detaljer
 app.get("/orders-with-details", async (req, res) => {
   try {
     await mongoose
