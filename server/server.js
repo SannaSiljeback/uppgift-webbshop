@@ -8,12 +8,13 @@ const Customers = require("./models/customers");
 const Products = require("./models/products");
 const Orders = require("./models/orders");
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 //är för admin, hämtar ordrar med detaljer
 app.get("/orders-with-details", async (req, res) => {
   try {
-    await mongoose
-      .connect("mongodb://localhost:27017/shop")
-      .then(console.log("connected to database"));
+    await mongoose.connect("mongodb://localhost:27017/shop").then();
     const pipeline = [
       {
         $lookup: {
@@ -72,7 +73,7 @@ app.get("/orders-with-details", async (req, res) => {
 //hämtar produkter, färdig?
 app.get("/", async (req, res) => {
   try {
-    await mongoose.connect(url).then(console.log("connected"));
+    await mongoose.connect(url).then();
 
     Products.find().then((result) => {
       res.send(result);
@@ -84,32 +85,60 @@ app.get("/", async (req, res) => {
 });
 
 // Lägger till produkter
+// app.post("/create-product", async (req, res) => {
+//   try {
+//     await mongoose.connect(url).then();
+
+//     const product = new Products({
+//       name: "hippie duck",
+//       description: "a duck with hippie theme",
+//       price: 45,
+//       image:
+//         "https://cdn.discordapp.com/attachments/1186060160528044146/1232342739027365908/sannas3261_a_rubber_duck_in_clipart_style_with_white_background_b8e70990-50d6-4789-a2e4-ab02ac675ec8.png?ex=66291c1c&is=6627ca9c&hm=20886f4147a0fdefd39810ff872d9f911f365ad3365b38994baaade4c8bb4ce1&",
+//       inStock: 55,
+//       status: "active",
+//     });
+
+//     product.save().then((result) => {
+//       res.send(result);
+//       mongoose.connection.close();
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
+
 app.post("/create-product", async (req, res) => {
   try {
-    await mongoose.connect(url).then(console.log("connected"));
-
+    await mongoose.connect(url);
+ 
+    // Extract product data from the request body
+    const { name, description, price, image, inStock, status } = req.body;
+ 
     const product = new Products({
-      name: "hippie duck",
-      description: "a duck with hippie theme",
-      price: 45,
-      image: "https://cdn.discordapp.com/attachments/1186060160528044146/1232342739027365908/sannas3261_a_rubber_duck_in_clipart_style_with_white_background_b8e70990-50d6-4789-a2e4-ab02ac675ec8.png?ex=66291c1c&is=6627ca9c&hm=20886f4147a0fdefd39810ff872d9f911f365ad3365b38994baaade4c8bb4ce1&",
-      inStock: 55,
-      status: "active",
+      name,
+      description,
+      price,
+      image,
+      inStock,
+      status,
     });
-
-    product.save().then((result) => {
-      res.send(result);
-      mongoose.connection.close();
-    });
+ 
+    // Save the product to the database
+    const result = await product.save();
+ 
+    res.send(result);
+    mongoose.connection.close();
   } catch (error) {
     console.log(error);
+    res.status(500).send("Error adding product");
   }
 });
 
 // Uppdaterar existerande produkter
 app.put("/update-product", async (req, res) => {
   try {
-    await mongoose.connect(url).then(console.log("connected"));
+    await mongoose.connect(url).then();
 
     Products.findByIdAndUpdate("321", {
       description: "en rolig sak",
@@ -121,7 +150,6 @@ app.put("/update-product", async (req, res) => {
     console.log(error);
   }
 });
-
 
 //ORDRAR
 //hämtar ordrar
@@ -141,7 +169,7 @@ app.put("/update-product", async (req, res) => {
 // Lägger till ordrar
 app.post("/create-order", async (req, res) => {
   try {
-    await mongoose.connect(url).then(console.log("connected"));
+    await mongoose.connect(url).then();
 
     const order = new Orders({
       _id: "6789",
@@ -164,7 +192,7 @@ app.post("/create-order", async (req, res) => {
 // Uppdaterar existerande order
 app.put("/update-order", async (req, res) => {
   try {
-    await mongoose.connect(url).then(console.log("connected"));
+    await mongoose.connect(url).then();
 
     Orders.findByIdAndUpdate("6789", {
       status: "paid",
@@ -177,12 +205,11 @@ app.put("/update-order", async (req, res) => {
   }
 });
 
-
 //CUSTOMERS
 //Hämtar användare
 app.get("/customers", async (req, res) => {
   try {
-    await mongoose.connect(url).then(console.log("connected"));
+    await mongoose.connect(url).then();
 
     Customers.find().then((result) => {
       res.send(result);
@@ -196,7 +223,7 @@ app.get("/customers", async (req, res) => {
 // Lägger till användare
 app.post("/create-customer", async (req, res) => {
   try {
-    await mongoose.connect(url).then(console.log("connected"));
+    await mongoose.connect(url).then();
 
     const customer = new Customers({
       _id: "test@testsson.test",
@@ -218,7 +245,7 @@ app.post("/create-customer", async (req, res) => {
 // Uppdaterar existerande användare
 app.put("/update-customer", async (req, res) => {
   try {
-    await mongoose.connect(url).then(console.log("connected"));
+    await mongoose.connect(url).then();
 
     Customers.findByIdAndUpdate("test@testsson.test", {
       firstName: "Sanna",
@@ -232,6 +259,5 @@ app.put("/update-customer", async (req, res) => {
     console.log(error);
   }
 });
-
 
 app.listen(3000, () => console.log("Server is up and running..."));

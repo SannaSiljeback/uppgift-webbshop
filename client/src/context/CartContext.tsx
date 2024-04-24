@@ -17,6 +17,7 @@ interface ICartContext {
   addToCart: (product: IProduct) => void;
   removeFromCart: (product: IProduct) => void;
   clearCart: () => void;
+  decreaseQuantity: (product: IProduct) => void;
 }
 
 const initialValues = {
@@ -24,6 +25,7 @@ const initialValues = {
   addToCart: () => {},
   removeFromCart: () => {},
   clearCart: () => {},
+  decreaseQuantity: () => {},
 };
 
 const CartContext = createContext<ICartContext>(initialValues);
@@ -60,29 +62,26 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
   };
 
   const removeFromCart = (product: IProduct) => {
-    const clonedCart = [...cart];
+    const clonedCart = cart.filter((item) => item.product._id !== product._id);
+    setCart(clonedCart);
+  };
 
-    const existingProduct = clonedCart.find(
-      (item) => item.product._id === product._id
-    );
-
-    if (existingProduct) {
-      if (existingProduct.quantity > 1) {
-        existingProduct.quantity--;
-      } else {
-        const index = clonedCart.findIndex(
-          (item) => item.product._id === product._id
-        );
-        clonedCart.splice(index, 1);
+  const decreaseQuantity = (product: IProduct) => {
+    const clonedCart = cart.map((item) => {
+      if (item.product._id === product._id) {
+        return {
+          ...item,
+          quantity: item.quantity > 1 ? item.quantity - 1 : 1,
+        };
       }
-
-      setCart(clonedCart);
-    }
+      return item;
+    });
+    setCart(clonedCart);
   };
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, clearCart }}
+      value={{ cart, addToCart, removeFromCart, clearCart, decreaseQuantity }}
     >
       {children}
     </CartContext.Provider>

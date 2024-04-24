@@ -1,12 +1,4 @@
-// export interface IProduct {
-//     _id: string;
-//     name: string;
-//     price: number;
-//     image: string;
-//   }
 
-
-  //den som ska användas tillslut
   export interface IProduct {
     _id: string;
     name: string;
