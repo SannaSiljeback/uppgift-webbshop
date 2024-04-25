@@ -127,6 +127,18 @@ app.put("/update-product/:id", async (req, res) => {
   }
 });
 
+//ta bort produkt
+app.delete("/delete-product/:id", async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const deletedProduct = await Products.findByIdAndDelete(productId);
+    res.send(deletedProduct);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error deleting product");
+  }
+});
+
 //ORDRAR
 //hämtar ordrar
 // app.get("/orders", async (req, res) => {

@@ -3,7 +3,7 @@ import { AddProduct } from "./AddProduct";
 import { EditProduct } from "./EditProduct";
 import { IProduct } from "../models/IProduct";
 import { ICreateProduct } from "../models/ICreateProduct";
- 
+
 export const Admin = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -11,11 +11,11 @@ export const Admin = () => {
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null
   );
- 
+
   useEffect(() => {
     fetchProducts();
   }, []);
- 
+
   const fetchProducts = async () => {
     try {
       const response = await fetch("/api/");
@@ -25,21 +25,21 @@ export const Admin = () => {
       console.error("Error fetching products:", error);
     }
   };
- 
+
   const handleToggleAddModal = () => {
     setShowAddModal(!showAddModal);
   };
- 
+
   const handleOpenEditModal = (productId: string) => {
     setSelectedProductId(productId);
     setShowEditModal(true);
   };
- 
+
   const handleCloseEditModal = () => {
     setShowEditModal(false);
     setSelectedProductId(null);
   };
- 
+
   const handleAddProduct = async (product: ICreateProduct) => {
     try {
       const response = await fetch("/api/create-product", {
@@ -49,7 +49,7 @@ export const Admin = () => {
         },
         body: JSON.stringify(product),
       });
- 
+
       if (response.ok) {
         const data = await response.json();
         console.log("Product added:", data);
@@ -60,7 +60,7 @@ export const Admin = () => {
       console.error("Error adding product:", error);
     }
   };
- 
+
   const handleEditProduct = async (
     productId: string,
     product: ICreateProduct
@@ -73,7 +73,7 @@ export const Admin = () => {
         },
         body: JSON.stringify(product),
       });
- 
+
       if (response.ok) {
         const data = await response.json();
         console.log("Product updated:", data);
@@ -84,17 +84,34 @@ export const Admin = () => {
       console.error("Error with updating product:", error);
     }
   };
+
+  const deleteProduct = async (productId: string) => {
+    try {
+      const response = await fetch(`/api/delete-product/${productId}`, {
+        method: "DELETE",
+      });
  
+      if (response.ok) {
+        console.log("Product deleted:", productId);
+        fetchProducts();
+      } else {
+        console.error("Failed to delete product:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
+
   return (
     <>
       <h1>Admin</h1>
-      <button onClick={handleToggleAddModal}>Add new Product</button>
+      <button onClick={handleToggleAddModal}>Lägg till anka</button>
       <AddProduct
         open={showAddModal}
         onClose={handleToggleAddModal}
         onAddProduct={handleAddProduct}
       />
- 
+
       <ul className="product-list">
         {products.map((product) => (
           <li key={product._id}>
@@ -109,7 +126,10 @@ export const Admin = () => {
                   {product.name} - {product.price} SEK
                 </p>
                 <button onClick={() => handleOpenEditModal(product._id)}>
-                  Edit Product
+                  Redigera anka
+                </button>
+                <button onClick={() => deleteProduct(product._id)}>
+                  Ta bort anka
                 </button>
                 {selectedProductId && (
                   <EditProduct
