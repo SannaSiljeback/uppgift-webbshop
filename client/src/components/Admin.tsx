@@ -101,7 +101,7 @@ export const Admin = () => {
             <div className="product-wrapper">
               <img
                 src={product.image}
-                style={{ width: "190px", height: "200px" }}
+                style={{ width: "150px", height: "auto" }}
                 alt={product.name}
               />
               <div className="product-info">
