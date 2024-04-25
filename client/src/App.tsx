@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import { Cart } from "./components/Cart";
-import { Admin } from "./components/Admin";
 import { IProduct } from "./models/IProduct";
 import { useCart } from "./context/CartContext";
 

@@ -48,7 +48,7 @@ export const AddProduct: React.FC<AddProductProps> = ({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Add New Product</DialogTitle>
+      <DialogTitle>Lägg till en rolig anka</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit}>
           <TextField

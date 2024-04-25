@@ -12,50 +12,41 @@ import { ICreateProduct } from "../models/ICreateProduct";
 interface EditProductProps {
   open: boolean;
   onClose: () => void;
-  onEditProduct: (product: ICreateProduct) => void;
+  onEditProduct: (productId: string, product: ICreateProduct) => void;
+  productId: string;
+  product: ICreateProduct;
 }
  
 export const EditProduct: React.FC<EditProductProps> = ({
   open,
   onClose,
   onEditProduct,
+  productId,
+  product,
 }) => {
-  const [product, setProduct] = useState({
-    // _id: "",
-    name: "",
-    description: "",
-    price: 0,
-    image: "",
-    inStock: 0,
-    status: "",
-  });
+  const [localProduct, setLocalProduct] = useState<ICreateProduct>(product);
  
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setProduct({ ...product, [e.target.name]: e.target.value });
+    setLocalProduct({ ...localProduct, [e.target.name]: e.target.value });
   };
  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onEditProduct(product);
-    onClose();
-  };
- 
-  const editProduct = () => {
-    onEditProduct(product);
+    onEditProduct(productId, localProduct); // Use localProduct for submission
     onClose();
   };
  
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Add New Product</DialogTitle>
+      <DialogTitle>Edit Product</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit}>
           <TextField
             name="name"
             label="Name"
-            value={product.name}
+            value={localProduct.name}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -63,7 +54,7 @@ export const EditProduct: React.FC<EditProductProps> = ({
           <TextField
             name="description"
             label="Description"
-            value={product.description}
+            value={localProduct.description}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -72,7 +63,7 @@ export const EditProduct: React.FC<EditProductProps> = ({
             name="price"
             label="Price"
             type="number"
-            value={product.price}
+            value={localProduct.price}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -80,7 +71,7 @@ export const EditProduct: React.FC<EditProductProps> = ({
           <TextField
             name="image"
             label="Image URL"
-            value={product.image}
+            value={localProduct.image}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -89,7 +80,7 @@ export const EditProduct: React.FC<EditProductProps> = ({
             name="inStock"
             label="In Stock"
             type="number"
-            value={product.inStock}
+            value={localProduct.inStock}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -97,7 +88,7 @@ export const EditProduct: React.FC<EditProductProps> = ({
           <TextField
             name="status"
             label="Status"
-            value={product.status}
+            value={localProduct.status}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -106,7 +97,7 @@ export const EditProduct: React.FC<EditProductProps> = ({
             <Button onClick={onClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={editProduct} type="submit" color="primary">
+            <Button onClick={handleSubmit} type="submit" color="primary">
               Edit Product
             </Button>
           </DialogActions>
