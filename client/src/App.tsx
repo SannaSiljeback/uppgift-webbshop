@@ -24,10 +24,13 @@ function App() {
 
   return (
     <>
-      <h2>En kul webbshop</h2>
+    
+      <h1>A fun webbshop</h1>
+      <div className="container">
       <ul className="product-list">
         {products.map((product) => (
           <li key={product._id}>
+            <div className="product">
             <div className="product-wrapper">
               <img
                 src={product.image}
@@ -35,14 +38,16 @@ function App() {
               />
             </div>
             <div className="product-info">
-              {product.name} - {product.price} kr
-              <button onClick={() => addToCart(product)}>
-                köp en rolig anka
+              {product.name} - {product.price} SEK
+              <button onClick={() => addToCart(product)} className="button">
+                Buy fun duck
               </button>
+            </div>
             </div>
           </li>
         ))}
       </ul>
+      </div>
       <Cart />
     </>
   );

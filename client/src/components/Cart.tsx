@@ -1,162 +1,16 @@
-// import { useCart } from "../context/CartContext";
-
-// export const Cart = () => {
-//   const { cart, removeFromCart, addToCart } = useCart();
-//   return (
-//     <>
-//       <h2>kundkorgen</h2>
-//       <ul>
-//         {cart.map((product) => (
-//           <li key={product.product._id}>
-//             <img
-//               src={product.product.image}
-//               style={{ width: "80px", height: "auto" }}
-//             />
-//             {product.quantity} st - {product.product.name} -{" "}
-//             {product.product.price} kr
-//             <button onClick={() => addToCart(product.product)}>köp mer ankor</button>
-//             <button onClick={() => removeFromCart(product.product)}>
-//               radera något
-//             </button>
-//           </li>
-//         ))}
-//       </ul>
-//       {cart.length > 0 && <button>betala din roliga kundkorg</button>}
-//     </>
-//   );
-// };
-
-// import { useState } from "react";
-// import { Modal } from "@mui/material";
-// import { useCart } from "../context/CartContext";
-// import { IProduct } from "../models/IProduct";
-
-// export const Cart = () => {
-//   const { cart, addToCart, removeFromCart, decreaseQuantity } = useCart();
-//   const [openCart, setOpenCart] = useState(false);
-
-//   const toggleCart = () => setOpenCart(!openCart);
-
-//   const handleIncrement = (product: IProduct) => {
-//     addToCart(product);
-//   };
-
-//   const handleDecrement = (product: IProduct) => {
-//     const item = cart.find((item) => item.product._id === product._id);
-//     if (item && item.quantity > 1) {
-//       decreaseQuantity(product);
-//     } else if (item && item.quantity === 1) {
-//       removeFromCart(product);
-//     }
-//   };
-
-//   const calculateTotal = () => {
-//     return cart.reduce(
-//       (total, item) => total + item.product.price * item.quantity,
-//       0
-//     );
-//   };
-
-//   return (
-//     <>
-//       <button onClick={toggleCart}>
-//         toggla
-//       </button>
-//       <Modal
-//         open={openCart}
-//         onClose={toggleCart}
-//         aria-labelledby="modal-modal-title"
-//         aria-describedby="modal-modal-description"
-//         style={{
-//           display: "flex",
-//           alignItems: "center",
-//           justifyContent: "center",
-//         }}>
-//         <div
-//           style={{
-//             backgroundColor: "white",
-//             padding: "20px",
-//             borderRadius: "10px",
-//             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
-//             width: "40%",
-//             maxWidth: "500px",
-//             maxHeight: "80vh",
-//             overflow: "auto",
-//             display: "flex",
-//             flexDirection: "column",
-//             alignItems: "center",
-//           }}>
-//           <button
-//             onClick={toggleCart}
-//             style={{
-//               alignSelf: "flex-end",
-//               border: "none",
-//               background: "none",
-//               fontSize: "large",
-//               cursor: "pointer",
-//             }}>
-//             X
-//           </button>
-//           <h2>Your Cart</h2>
-//           {cart.length > 0 ? (
-//             cart.map((item) => (
-//               <div
-//                 key={item.product._id}
-//                 style={{
-//                   display: "flex",
-//                   alignItems: "center",
-//                   justifyContent: "space-between",
-//                   marginBottom: "10px",
-//                   width: "100%",
-//                 }}>
-//                 <img
-//                   src={item.product.image}
-//                   alt={item.product.name}
-//                   style={{ width: "50px", marginRight: "10px" }}
-//                 />
-//                 <h4 style={{ flex: 1 }}>{item.product.name}</h4>
-//                 <p>Pris: {item.product.price} SEK</p>
-//                 <div style={{ display: "flex", alignItems: "center" }}>
-//                   <button
-//                     onClick={() => handleDecrement(item.product)}
-//                     style={{ marginRight: "5px" }}>
-//                     ta bort en
-//                   </button>
-//                   <span>{item.quantity}</span>
-//                   <button
-//                     onClick={() => handleIncrement(item.product)}
-//                     style={{ marginLeft: "5px" }}>
-//                     lägg till en
-//                   </button>
-//                 </div>
-//               </div>
-//             ))
-//           ) : (
-//             <p>Cart is empty</p>
-//           )}
-//           <h3>Total: {calculateTotal()} kr</h3>
-//           <button style={{ marginTop: "10px" }}>Go to payment</button>
-//         </div>
-//       </Modal>
-//     </>
-//   );
-// };
-
 import { useState } from "react";
 import { Modal } from "@mui/material";
 import { useCart } from "../context/CartContext";
 import { IProduct } from "../models/IProduct";
+import { GiPlasticDuck } from "react-icons/gi";
+import "../styles/cart.css";
+import { CiTrash } from "react-icons/ci";
 
 export const Cart = () => {
   const { cart, addToCart, removeFromCart, decreaseQuantity } = useCart();
   const [openCart, setOpenCart] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null);
   console.log(selectedProduct);
-
-  //Släng in i en useEffect.
-  //   const calculateTotal = () => {
-  //     return cart.reduce((total, item) => total + item.product.price, 0);
-  //   };
 
   const calculateTotal = () => {
     return cart.reduce(
@@ -204,8 +58,8 @@ export const Cart = () => {
 
       <button
         onClick={() => setOpenCart(!openCart)}
-        style={{ position: "fixed", top: "10px", right: "10px" }}>
-        toggla cart
+        style={{ backgroundColor: "#FDF9EC", position: "fixed", top: "15px", right: "15px" }} className="duck-button">
+        Buy all ducks <GiPlasticDuck className="duck" />
       </button>
       <Modal
         open={openCart}
@@ -220,7 +74,7 @@ export const Cart = () => {
       >
         <div
           style={{
-            backgroundColor: "white",
+            backgroundColor: "#FDF9EC",
             padding: "20px",
             width: "300px",
             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
@@ -238,14 +92,14 @@ export const Cart = () => {
               position: "absolute",
               top: "10px",
               right: "10px",
-              fontSize: "16px",
+              fontSize: "20px",
               color: "#666",
             }}
           >
             X
           </button>
-          <h2 style={{ color: "purple" }}>Kundvagn:</h2>
-          <h3>Artiklar:</h3>
+          <h2 style={{ color: "#2D898B", fontSize: "22px" }}>Cart:</h2>
+          <h3 style={{ fontSize: "20px"}}>Products:</h3>
           <div style={{ marginBottom: "20px" }}>
             {cart.map((item) => (
               <div key={item.product._id} style={{ marginBottom: "10px" }}>
@@ -256,11 +110,11 @@ export const Cart = () => {
                   style={{ width: "100px", marginRight: "10px" }}
                 />
                 <div>
-                  <h4 style={{ fontSize: "16px", marginBottom: "2px" }}>
+                  <h4 style={{ fontSize: "18px", marginBottom: "2px" }}>
                     {item.product.name}
                   </h4>
-                  <p style={{ fontSize: "12px", marginBottom: "2px" }}>
-                    Pris: {item.product.price} kr
+                  <p style={{ fontSize: "15px", marginBottom: "2px" }}>
+                    Price: {item.product.price} kr
                   </p>
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <button
@@ -271,7 +125,12 @@ export const Cart = () => {
                       style={{
                         marginLeft: "5px",
                         padding: "5px 10px",
-                        fontSize: "12px",
+                        fontSize: "15px",
+                        backgroundColor: "#57C5C7",
+                        height: "32px",
+                        display: "flex",
+                        justifyContent: "center", 
+                        alignItems: "center", 
                       }}
                     >
                       -
@@ -280,10 +139,10 @@ export const Cart = () => {
                       style={{
                         marginRight: "5px",
                         padding: "5px 10px",
-                        fontSize: "12px",
+                        fontSize: "15px",
                       }}
                     >
-                      Antal: {item.quantity}
+                      Quantity: {item.quantity}
                     </p>
                     <button
                       onClick={(e) => {
@@ -293,7 +152,12 @@ export const Cart = () => {
                       style={{
                         marginRight: "5px",
                         padding: "5px 10px",
-                        fontSize: "12px",
+                        fontSize: "15px",
+                        backgroundColor: "#57C5C7",
+                        height: "32px",
+                        display: "flex",
+                        justifyContent: "center", 
+                        alignItems: "center", 
                       }}
                     >
                       +
@@ -304,16 +168,21 @@ export const Cart = () => {
                         handleRemoveItem(item.product);
                       }}
                       style={{
+                        display: "flex",
                         marginLeft: "5px",
                         padding: "5px 10px",
-                        fontSize: "14px",
-                        backgroundColor: "transparent",
+                        fontSize: "19px",
                         border: "none",
                         cursor: "pointer",
                         color: "red",
+                        justifyContent: "center", 
+                        alignItems: "center", 
+                        backgroundColor: "#D3D7D9",
+                        height: "32px",
+                                         
                       }}
                     >
-                      ta bort allt
+                      <CiTrash />
                     </button>
                   </div>
                 </div>
@@ -321,7 +190,7 @@ export const Cart = () => {
             ))}
           </div>
           <h3>Total: {calculateTotal()} kr</h3>
-          <button>Gå till betalning</button>
+          <button className="buy-all-button">Buy this fun cart</button>
         </div>
       </Modal>
     </>

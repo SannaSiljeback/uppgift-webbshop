@@ -48,7 +48,7 @@ export const AddProduct: React.FC<AddProductProps> = ({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Lägg till en rolig anka</DialogTitle>
+      <DialogTitle>Add a fun duck</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit}>
           <TextField
@@ -106,7 +106,7 @@ export const AddProduct: React.FC<AddProductProps> = ({
               Cancel
             </Button>
             <Button onClick={() => onAddProduct} type="submit" color="primary">
-              lägg till produkt
+              Add product
             </Button>
           </DialogActions>
         </form>

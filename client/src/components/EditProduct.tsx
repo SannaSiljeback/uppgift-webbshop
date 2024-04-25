@@ -40,7 +40,7 @@ export const EditProduct: React.FC<EditProductProps> = ({
  
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Edit Product</DialogTitle>
+      <DialogTitle>Edit a fun duck</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit}>
           <TextField
@@ -98,7 +98,7 @@ export const EditProduct: React.FC<EditProductProps> = ({
               Cancel
             </Button>
             <Button onClick={handleSubmit} type="submit" color="primary">
-              Edit Product
+              Edit duck
             </Button>
           </DialogActions>
         </form>

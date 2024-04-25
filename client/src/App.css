@@ -1,62 +1,74 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* .container {
+  background-color: #57C5C7;
+  border-radius: 140px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.08);
+} */
+
+.button {
+  background-color: #fdf9ec;
+  margin-left: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.08);
+  width: 180px;
+  height: 57px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 ul {
   list-style-type: none;
   padding: 0;
-  display: flex; /* Använd flexbox */
-  flex-wrap: wrap; /* Låt elementen wrap vid behov */
-  justify-content: center; /* Centrera elementen horisontellt */
+  display: grid;
+  grid-template-columns: repeat(
+    3,
+    1fr
+  ); /* Tre kolumner som anpassar sig till innehållets storlek */
+  grid-gap: 10px; /* Avstånd mellan rutorna */
+  justify-content: center; /* Centrerar innehållet horisontellt */
 }
- 
+
 li {
-  flex: 0 0 auto; /* Auto storlek för elementen */
-  margin: 0.5rem; /* Lite mellanrum mellan bilderna */
+  flex: 0 0 auto;
+  margin: 5px;
 }
- 
+
+img {
+  border-radius: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  margin-top: 30px;
+}
+
+.product {
+  background-color: #57c5c7;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.08);
+  border-radius: 30px;
+}
+
 .product-list {
   list-style-type: none;
   padding: 0;
 }
- 
+
 .product-wrapper {
-  text-align: center; /* Centrera innehållet horisontellt */
+  text-align: center;
 }
- 
+
 .product-info {
-  margin-top: 0.5rem; /* Lite mellanrum mellan bilden och texten */
-}
+  margin-top: 20px;
+  margin-left: 25px;
+  margin-right: 25px;
+  padding-bottom: 20px;
+  font-size: 1.2em;
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+  display: flex;
+  justify-content: space-between;
 }
 
 .card {

@@ -1,0 +1,17 @@
+.duck {
+    font-size: 23px;
+    padding-left: 10px;
+}
+
+.duck-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #57C5C7!important;
+    margin-top: 3px;
+    font-size: 1.2em;
+}
+
+.buy-all-button {
+    background-color: #57C5C7!important;
+}
