@@ -1,9 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AddProduct } from "./AddProduct";
 import { ICreateProduct } from "../models/ICreateProduct";
+import { IProduct } from "../models/IProduct";
+import { EditProduct } from "./EditProduct";
 
 export const Admin = () => {
   const [showAddModal, setShowAddModal] = useState(false);
+  const [products, setProducts] = useState<IProduct[]>([]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch("/api/");
+      const data = await response.json();
+      setProducts(data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
 
   const handleToggleAddModal = () => {
     setShowAddModal(!showAddModal);
@@ -33,6 +50,11 @@ export const Admin = () => {
     }
   };
 
+
+  const handleEditProduct = async () => {
+    
+  };
+
   return (
     <>
       <h2>Admin</h2>
@@ -42,6 +64,28 @@ export const Admin = () => {
         onClose={handleToggleAddModal}
         onAddProduct={handleAddProduct}
       />
+
+      <ul className="product-list">
+        {products.map((product) => (
+          <li key={product._id}>
+            <div className="product-wrapper">
+              <img
+                src={product.image}
+                style={{ width: "150px", height: "auto" }}
+              />
+            </div>
+            <div className="product-info">
+              {product.name} - {product.price} kr
+              <button onClick={handleToggleAddModal}>Edit Product</button>
+                <EditProduct
+                  open={showAddModal}
+                  onClose={handleToggleAddModal}
+                  onEditProduct={handleEditProduct}
+                />
+            </div>
+          </li>
+        ))}
+      </ul>
     </>
   );
 };

@@ -45,7 +45,6 @@ function App() {
         ))}
       </ul>
       <Cart />
-      <Admin />
     </>
   );
 }
