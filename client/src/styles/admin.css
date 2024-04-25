@@ -1,0 +1,26 @@
+.admin-product {
+  background-color: #57c5c7;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.08);
+  border-radius: 30px;
+  width: 370px;
+}
+
+.admin-button {
+  background-color: #fdf9ec;
+  margin-left: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.08);
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-add-button {
+    background-color: #57c5c7;
+    margin-left: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.08);
+    width: 180px;
+    height: 50px;
+    font-size: 1.2em;
+}

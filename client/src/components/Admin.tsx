@@ -3,6 +3,7 @@ import { AddProduct } from "./AddProduct";
 import { EditProduct } from "./EditProduct";
 import { IProduct } from "../models/IProduct";
 import { ICreateProduct } from "../models/ICreateProduct";
+import "../styles/admin.css";
 
 export const Admin = () => {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -104,8 +105,8 @@ export const Admin = () => {
 
   return (
     <>
-      <h1>Admin</h1>
-      <button onClick={handleToggleAddModal}>Lägg till anka</button>
+      <h1>Fun admin page</h1>
+      <button className="admin-add-button" onClick={handleToggleAddModal}>Add a fun duck</button>
       <AddProduct
         open={showAddModal}
         onClose={handleToggleAddModal}
@@ -115,6 +116,7 @@ export const Admin = () => {
       <ul className="product-list">
         {products.map((product) => (
           <li key={product._id}>
+            <div className="admin-product">
             <div className="product-wrapper">
               <img
                 src={product.image}
@@ -125,11 +127,11 @@ export const Admin = () => {
                 <p>
                   {product.name} - {product.price} SEK
                 </p>
-                <button onClick={() => handleOpenEditModal(product._id)}>
-                  Redigera anka
+                <button className="admin-button" onClick={() => handleOpenEditModal(product._id)}>
+                  Edit duck
                 </button>
-                <button onClick={() => deleteProduct(product._id)}>
-                  Ta bort anka
+                <button className="admin-button" onClick={() => deleteProduct(product._id)}>
+                  Delete duck
                 </button>
                 {selectedProductId && (
                   <EditProduct
@@ -144,6 +146,7 @@ export const Admin = () => {
                     }
                   />
                 )}
+              </div>
               </div>
             </div>
           </li>
