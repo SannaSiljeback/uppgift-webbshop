@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-import { AddProduct } from "./AddProduct";
-import { EditProduct } from "./EditProduct";
+import { AddProductModal } from "./AddProductModal";
+import { EditProductModal } from "./EditProductModal";
 import { IProduct } from "../models/IProduct";
 import { ICreateProduct } from "../models/ICreateProduct";
 import "../styles/admin.css";
-import { AllOrders } from "./AllOrders";
+import { AllOrdersModal } from "./AllOrdersModal";
 
 export const Admin = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-
-  const [showOrdersModal, setShowOrdersModal] = useState(true);
+  const [showOrdersModal, setShowOrdersModal] = useState(false);
 
   const [products, setProducts] = useState<IProduct[]>([]);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
@@ -31,18 +30,13 @@ export const Admin = () => {
     }
   };
 
-  const handleToggleAddModal = () => {
-    setShowAddModal(!showAddModal);
+ // add functionality
+  const openAddModal = () => {
+    setShowAddModal(true);
   };
 
-  const handleOpenEditModal = (productId: string) => {
-    setSelectedProductId(productId);
-    setShowEditModal(true);
-  };
-
-  const handleCloseEditModal = () => {
-    setShowEditModal(false);
-    setSelectedProductId(null);
+  const closeAddModal = () => {
+    setShowAddModal(false);
   };
 
   const handleAddProduct = async (product: ICreateProduct) => {
@@ -64,6 +58,17 @@ export const Admin = () => {
     } catch (error) {
       console.error("Error adding product:", error);
     }
+  };
+
+  //edit functionality
+  const handleOpenEditModal = (productId: string) => {
+    setSelectedProductId(productId);
+    setShowEditModal(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+    setSelectedProductId(null);
   };
 
   const handleEditProduct = async (
@@ -90,6 +95,16 @@ export const Admin = () => {
     }
   };
 
+  //orders functionality
+  const openOrdersModal = () => {
+    setShowOrdersModal(true);
+  };
+
+  const closeOrdersModal = () => {
+    setShowOrdersModal(false);
+  };
+
+  //delete functionality
   const deleteProduct = async (productId: string) => {
     try {
       const response = await fetch(`/api/delete-product/${productId}`, {
@@ -108,44 +123,34 @@ export const Admin = () => {
   };
 
 
-  const handleToggleOrdersModal = () => {
-    setShowOrdersModal(true);
-  };
-
-  // Funktion för att stänga modalen för alla ordrar
-  const handleCloseOrdersModal = () => {
-    setShowOrdersModal(false);
-  };
-
   return (
     <>
       <h1>Fun admin page</h1>
-      <button className="admin-add-button" onClick={handleToggleAddModal}>
+      <button className="admin-other-button" onClick={openAddModal}>
         Add a fun duck
       </button>
-      <AddProduct
+      <AddProductModal
         open={showAddModal}
-        onClose={handleToggleAddModal}
+        onClose={closeAddModal}
         onAddProduct={handleAddProduct}
       />
 
-      <button onClick={handleToggleOrdersModal}>Show duck orders</button>
-      <AllOrders
-        open={showOrdersModal}
-        onClose={handleCloseOrdersModal}
-      />
+      <button className="admin-other-button" onClick={openOrdersModal}>
+        Show orders
+      </button>
+      <AllOrdersModal open={showOrdersModal} onClose={closeOrdersModal} />
 
-      <ul className="product-list">
+      <ul className="ulContainer">
         {products.map((product) => (
           <li key={product._id}>
             <div className="admin-product">
-              <div className="product-wrapper">
+              <div className="imgContainer">
                 <img
                   src={product.image}
                   style={{ width: "150px", height: "auto" }}
                   alt={product.name}
                 />
-                <div className="product-info">
+                <div className="priceContainer">
                   <p>
                     {product.name} - {product.price} SEK
                   </p>
@@ -162,7 +167,7 @@ export const Admin = () => {
                     Delete duck
                   </button>
                   {selectedProductId && (
-                    <EditProduct
+                    <EditProductModal
                       open={showEditModal}
                       onClose={handleCloseEditModal}
                       onEditProduct={handleEditProduct}

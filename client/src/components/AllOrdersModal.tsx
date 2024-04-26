@@ -16,7 +16,7 @@ interface AllOrdersProps {
   onClose: () => void;
 }
 
-export const AllOrders: React.FC<AllOrdersProps> = ({ open, onClose }) => {
+export const AllOrdersModal: React.FC<AllOrdersProps> = ({ open, onClose }) => {
   const [allOrders, setAllOrders] = useState<IOrder[]>([]);
 
   useEffect(() => {
@@ -50,19 +50,22 @@ export const AllOrders: React.FC<AllOrdersProps> = ({ open, onClose }) => {
                   order.paymentId
                 }`}
               />
+
               {order.lineItems &&
                 order.lineItems.map((item) => (
-                  <ListItemText
-                    primary={`Product: ${item.linkedProduct.name}`}
-                    secondary={`Amount: ${item.amount}, Total Price: ${item.totalPrice} SEK`}
-                  />
+                  <div key={item._id}>
+                    <ListItemText
+                      primary={`Product: ${item.linkedProduct.name}`}
+                      secondary={`Amount: ${item.amount}, Total Price: ${item.totalPrice} SEK`}
+                    />
+                  </div>
                 ))}
             </ListItem>
           ))}
         </List>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <Button onClick={onClose} style={{ color: "#2d898b" }}>
           Close
         </Button>
       </DialogActions>

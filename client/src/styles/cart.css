@@ -1,17 +1,95 @@
+.modal {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.modalDiv {
+  padding: 20px;
+  background-color: #fdf9ec;
+  width: 270px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
 .duck {
-    font-size: 23px;
-    padding-left: 10px;
+  font-size: 23px;
+  padding-left: 10px;
 }
 
-.duck-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #57C5C7!important;
-    margin-top: 3px;
-    font-size: 1.2em;
+.cartButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #57c5c7 !important;
+  margin-top: 3px;
+  font-size: 1.2em;
+  position: fixed;
+  top: 15px;
+  right: 15px;
 }
 
-.buy-all-button {
-    background-color: #57C5C7!important;
+.closeButton {
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: #666;
+  background: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.buyCartButton {
+  background-color: #57c5c7 !important;
+}
+.buttonContainer {
+  display: flex;
+  align-items: center;
+}
+
+.quantityButton {
+  margin-left: 5px;
+  padding: 5px 10px;
+  font-size: 1em;
+  background-color: #57c5c7;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.deleteButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 5px;
+  padding: 5px 10px;
+  font-size: 1em;
+  background-color: #d3d7d9;
+  height: 32px;
+  cursor: pointer;
+  color: red;
+  border: none;
+}
+
+h2 {
+  color: #2d898b;
+  font-size: 1.5em;
+}
+
+h3 {
+  font-size: 1.2em;
+}
+
+h4 {
+  font-size: 1.1em;
+  margin-bottom: 2px;
+}
+
+p {
+  font-size: 1em;
+  margin-bottom: 2px;
 }

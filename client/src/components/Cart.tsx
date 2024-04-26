@@ -12,13 +12,6 @@ export const Cart = () => {
   const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null);
   console.log(selectedProduct);
 
-  const calculateTotal = () => {
-    return cart.reduce(
-      (total, item) => total + item.product.price * item.quantity,
-      0
-    );
-  };
-
   const handleIncrement = (productId: string) => {
     const product = cart.find((item) => item.product._id === productId);
     if (product) {
@@ -31,6 +24,13 @@ export const Cart = () => {
     if (product && product.quantity > 1) {
       decreaseQuantity(product.product);
     }
+  };
+
+  const calculateTotal = () => {
+    return cart.reduce(
+      (total, item) => total + item.product.price * item.quantity,
+      0
+    );
   };
 
   const handleRemoveItem = (product: IProduct) => {
@@ -55,10 +55,7 @@ export const Cart = () => {
 
   return (
     <>
-
-      <button
-        onClick={() => setOpenCart(!openCart)}
-        style={{ backgroundColor: "#FDF9EC", position: "fixed", top: "15px", right: "15px" }} className="duck-button">
+      <button onClick={() => setOpenCart(!openCart)} className="cartButton">
         Buy all ducks <GiPlasticDuck className="duck" />
       </button>
       <Modal
@@ -66,41 +63,15 @@ export const Cart = () => {
         onClose={handleCloseModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          alignItems: "flex-start",
-        }}
+        className="modal"
       >
-        <div
-          style={{
-            backgroundColor: "#FDF9EC",
-            padding: "20px",
-            width: "300px",
-            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-            borderRadius: "8px",
-            maxHeight: "80vh",
-            overflowY: "auto",
-          }}
-        >
-          <button
-            onClick={handleCloseModal}
-            style={{
-              border: "none",
-              background: "none",
-              cursor: "pointer",
-              position: "absolute",
-              top: "10px",
-              right: "10px",
-              fontSize: "20px",
-              color: "#666",
-            }}
-          >
+        <div className="modalDiv">
+          <button onClick={handleCloseModal} className="closeButton">
             X
           </button>
-          <h2 style={{ color: "#2D898B", fontSize: "22px" }}>Cart:</h2>
-          <h3 style={{ fontSize: "20px"}}>Products:</h3>
-          <div style={{ marginBottom: "20px" }}>
+          <h2>Cart:</h2>
+          <h3>Products:</h3>
+          <div className="itemContainer">
             {cart.map((item) => (
               <div key={item.product._id} style={{ marginBottom: "10px" }}>
                 <hr style={{ marginBottom: "20px" }} />
@@ -110,28 +81,15 @@ export const Cart = () => {
                   style={{ width: "100px", marginRight: "10px" }}
                 />
                 <div>
-                  <h4 style={{ fontSize: "18px", marginBottom: "2px" }}>
-                    {item.product.name}
-                  </h4>
-                  <p style={{ fontSize: "15px", marginBottom: "2px" }}>
-                    Price: {item.product.price} kr
-                  </p>
-                  <div style={{ display: "flex", alignItems: "center" }}>
+                  <h4>{item.product.name}</h4>
+                  <p>Price: {item.product.price} kr</p>
+                  <div className="buttonContainer">
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         handleDecrement(item.product._id);
                       }}
-                      style={{
-                        marginLeft: "5px",
-                        padding: "5px 10px",
-                        fontSize: "15px",
-                        backgroundColor: "#57C5C7",
-                        height: "32px",
-                        display: "flex",
-                        justifyContent: "center", 
-                        alignItems: "center", 
-                      }}
+                      className="quantityButton"
                     >
                       -
                     </button>
@@ -149,16 +107,7 @@ export const Cart = () => {
                         e.stopPropagation();
                         handleIncrement(item.product._id);
                       }}
-                      style={{
-                        marginRight: "5px",
-                        padding: "5px 10px",
-                        fontSize: "15px",
-                        backgroundColor: "#57C5C7",
-                        height: "32px",
-                        display: "flex",
-                        justifyContent: "center", 
-                        alignItems: "center", 
-                      }}
+                      className="quantityButton"
                     >
                       +
                     </button>
@@ -167,20 +116,7 @@ export const Cart = () => {
                         e.stopPropagation();
                         handleRemoveItem(item.product);
                       }}
-                      style={{
-                        display: "flex",
-                        marginLeft: "5px",
-                        padding: "5px 10px",
-                        fontSize: "19px",
-                        border: "none",
-                        cursor: "pointer",
-                        color: "red",
-                        justifyContent: "center", 
-                        alignItems: "center", 
-                        backgroundColor: "#D3D7D9",
-                        height: "32px",
-                                         
-                      }}
+                      className="deleteButton"
                     >
                       <CiTrash />
                     </button>
@@ -190,7 +126,7 @@ export const Cart = () => {
             ))}
           </div>
           <h3>Total: {calculateTotal()} kr</h3>
-          <button className="buy-all-button">Buy this fun cart</button>
+          <button className="buyCartButton">Buy this fun cart</button>
         </div>
       </Modal>
     </>
