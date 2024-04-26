@@ -2,8 +2,6 @@ GET http://localhost:3000/
 ###
 GET http://localhost:3000/customers
 ###
-GET http://localhost:3000/orders
-###
 GET http://localhost:3000/orders-with-details
  
  

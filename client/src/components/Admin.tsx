@@ -4,10 +4,14 @@ import { EditProduct } from "./EditProduct";
 import { IProduct } from "../models/IProduct";
 import { ICreateProduct } from "../models/ICreateProduct";
 import "../styles/admin.css";
+import { AllOrders } from "./AllOrders";
 
 export const Admin = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+
+  const [showOrdersModal, setShowOrdersModal] = useState(true);
+
   const [products, setProducts] = useState<IProduct[]>([]);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null
@@ -91,7 +95,7 @@ export const Admin = () => {
       const response = await fetch(`/api/delete-product/${productId}`, {
         method: "DELETE",
       });
- 
+
       if (response.ok) {
         console.log("Product deleted:", productId);
         fetchProducts();
@@ -103,57 +107,74 @@ export const Admin = () => {
     }
   };
 
-  const toggleOrderModal = () => {
-    
+
+  const handleToggleOrdersModal = () => {
+    setShowOrdersModal(true);
   };
 
+  // Funktion för att stänga modalen för alla ordrar
+  const handleCloseOrdersModal = () => {
+    setShowOrdersModal(false);
+  };
 
   return (
     <>
       <h1>Fun admin page</h1>
-      <button className="admin-add-button" onClick={handleToggleAddModal}>Add a fun duck</button>
+      <button className="admin-add-button" onClick={handleToggleAddModal}>
+        Add a fun duck
+      </button>
       <AddProduct
         open={showAddModal}
         onClose={handleToggleAddModal}
         onAddProduct={handleAddProduct}
       />
 
-      <button onClick={toggleOrderModal}>All ordered ducks</button>
+      <button onClick={handleToggleOrdersModal}>Show duck orders</button>
+      <AllOrders
+        open={showOrdersModal}
+        onClose={handleCloseOrdersModal}
+      />
 
       <ul className="product-list">
         {products.map((product) => (
           <li key={product._id}>
             <div className="admin-product">
-            <div className="product-wrapper">
-              <img
-                src={product.image}
-                style={{ width: "150px", height: "auto" }}
-                alt={product.name}
-              />
-              <div className="product-info">
-                <p>
-                  {product.name} - {product.price} SEK
-                </p>
-                <button className="admin-button" onClick={() => handleOpenEditModal(product._id)}>
-                  Edit duck
-                </button>
-                <button className="admin-button" onClick={() => deleteProduct(product._id)}>
-                  Delete duck
-                </button>
-                {selectedProductId && (
-                  <EditProduct
-                    open={showEditModal}
-                    onClose={handleCloseEditModal}
-                    onEditProduct={handleEditProduct}
-                    productId={selectedProductId}
-                    product={
-                      products.find(
-                        (p) => p._id === selectedProductId
-                      ) as ICreateProduct
-                    }
-                  />
-                )}
-              </div>
+              <div className="product-wrapper">
+                <img
+                  src={product.image}
+                  style={{ width: "150px", height: "auto" }}
+                  alt={product.name}
+                />
+                <div className="product-info">
+                  <p>
+                    {product.name} - {product.price} SEK
+                  </p>
+                  <button
+                    className="admin-button"
+                    onClick={() => handleOpenEditModal(product._id)}
+                  >
+                    Edit duck
+                  </button>
+                  <button
+                    className="admin-button"
+                    onClick={() => deleteProduct(product._id)}
+                  >
+                    Delete duck
+                  </button>
+                  {selectedProductId && (
+                    <EditProduct
+                      open={showEditModal}
+                      onClose={handleCloseEditModal}
+                      onEditProduct={handleEditProduct}
+                      productId={selectedProductId}
+                      product={
+                        products.find(
+                          (p) => p._id === selectedProductId
+                        ) as ICreateProduct
+                      }
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </li>

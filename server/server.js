@@ -113,20 +113,8 @@ app.get("/orders-with-details", async (req, res) => {
           ],
         },
       },
-      //behövs ej om vi ej har costumer?
-      // {
-      //   $lookup: {
-      //     from: "customers",
-      //     localField: "customerId",
-      //     foreignField: "_id",
-      //     as: "linkedCustomer",
-      //   },
-      // },
       {
         $addFields: {
-          // linkedCustomer: {
-          //   $first: "$linkedCustomer",
-          // },
           calculatedTotal: {
             $sum: "$lineItems.totalPrice",
           },
