@@ -4,19 +4,12 @@
   text-align: center;
 }
 
-/* .container {
-  background-color: #57C5C7;
-  border-radius: 140px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.08);
-} */
-
 .button {
   background-color: #fdf9ec;
   margin-left: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.08);
   width: 180px;
   height: 57px;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,9 +22,9 @@ ul {
   grid-template-columns: repeat(
     3,
     1fr
-  ); /* Tre kolumner som anpassar sig till innehållets storlek */
-  grid-gap: 10px; /* Avstånd mellan rutorna */
-  justify-content: center; /* Centrerar innehållet horisontellt */
+  ); 
+  grid-gap: 10px; 
+  justify-content: center;
 }
 
 li {
@@ -45,22 +38,22 @@ img {
   margin-top: 30px;
 }
 
-.product {
+.ulContainer {
+  list-style-type: none;
+  padding: 0;
+}
+
+.productContainer {
   background-color: #57c5c7;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.08);
   border-radius: 30px;
 }
 
-.product-list {
-  list-style-type: none;
-  padding: 0;
-}
-
-.product-wrapper {
+.imgContainer {
   text-align: center;
 }
 
-.product-info {
+.priceContainer {
   margin-top: 20px;
   margin-left: 25px;
   margin-right: 25px;
@@ -70,12 +63,4 @@ img {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }

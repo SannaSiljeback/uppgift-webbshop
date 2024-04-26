@@ -103,6 +103,11 @@ export const Admin = () => {
     }
   };
 
+  const toggleOrderModal = () => {
+    
+  };
+
+
   return (
     <>
       <h1>Fun admin page</h1>
@@ -112,6 +117,8 @@ export const Admin = () => {
         onClose={handleToggleAddModal}
         onAddProduct={handleAddProduct}
       />
+
+      <button onClick={toggleOrderModal}>All ordered ducks</button>
 
       <ul className="product-list">
         {products.map((product) => (

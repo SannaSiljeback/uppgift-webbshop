@@ -11,63 +11,6 @@ const Orders = require("./models/orders");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//är för admin, hämtar ordrar med detaljer
-app.get("/orders-with-details", async (req, res) => {
-  try {
-    const pipeline = [
-      {
-        $lookup: {
-          from: "lineItems",
-          localField: "orderId",
-          foreignField: "id",
-          as: "lineItems",
-          pipeline: [
-            {
-              $lookup: {
-                from: "products",
-                localField: "productId",
-                foreignField: "id",
-                as: "linkedProduct",
-              },
-            },
-            {
-              $addFields: {
-                linkedProduct: {
-                  $first: "$linkedProduct",
-                },
-              },
-            },
-          ],
-        },
-      },
-      {
-        $lookup: {
-          from: "customers",
-          localField: "customerId",
-          foreignField: "_id",
-          as: "linkedCustomer",
-        },
-      },
-      {
-        $addFields: {
-          linkedCustomer: {
-            $first: "$linkedCustomer",
-          },
-          calculatedTotal: {
-            $sum: "$lineItems.totalPrice",
-          },
-        },
-      },
-    ];
-
-    const ordersWithDetails = await Orders.aggregate(pipeline);
-    res.json(ordersWithDetails);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
 //PRODUKTER
 //hämtar produkter, färdig?
 app.get("/", async (req, res) => {
@@ -139,22 +82,67 @@ app.delete("/delete-product/:id", async (req, res) => {
   }
 });
 
+
 //ORDRAR
-//hämtar ordrar
-// app.get("/orders", async (req, res) => {
-//   try {
-//     await mongoose.connect(url).then(console.log("connected"));
+//är för admin, hämtar ordrar med detaljer
+app.get("/orders-with-details", async (req, res) => {
+  try {
+    const pipeline = [
+      {
+        $lookup: {
+          from: "lineItems",
+          localField: "orderId",
+          foreignField: "id",
+          as: "lineItems",
+          pipeline: [
+            {
+              $lookup: {
+                from: "products",
+                localField: "productId",
+                foreignField: "id",
+                as: "linkedProduct",
+              },
+            },
+            {
+              $addFields: {
+                linkedProduct: {
+                  $first: "$linkedProduct",
+                },
+              },
+            },
+          ],
+        },
+      },
+      //behövs ej om vi ej har costumer?
+      // {
+      //   $lookup: {
+      //     from: "customers",
+      //     localField: "customerId",
+      //     foreignField: "_id",
+      //     as: "linkedCustomer",
+      //   },
+      // },
+      {
+        $addFields: {
+          // linkedCustomer: {
+          //   $first: "$linkedCustomer",
+          // },
+          calculatedTotal: {
+            $sum: "$lineItems.totalPrice",
+          },
+        },
+      },
+    ];
 
-//     Orders.find().then((result) => {
-//       res.send(result);
-//       mongoose.connection.close();
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
+    const ordersWithDetails = await Orders.aggregate(pipeline);
+    res.json(ordersWithDetails);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
-// Lägger till ordrar
+// Lägger till ordrar, ska kopplas till cart, köp knappen, behövs en lookup med en lineitems
 app.post("/create-order", async (req, res) => {
   try {
     const order = new Orders({
@@ -174,6 +162,10 @@ app.post("/create-order", async (req, res) => {
   }
 });
 
+
+
+
+///BEHÖVS EJ?
 // Uppdaterar existerande order
 app.put("/update-order", async (req, res) => {
   try {
@@ -187,51 +179,56 @@ app.put("/update-order", async (req, res) => {
   }
 });
 
+
+
+
+
+//TA BORT OM MAN EJ HAR INLOGG
 //CUSTOMERS
 //Hämtar användare
-app.get("/customers", async (req, res) => {
-  try {
-    Customers.find().then((result) => {
-      res.send(result);
-    });
-  } catch (error) {
-    console.log(error);
-  }
-});
+// app.get("/customers", async (req, res) => {
+//   try {
+//     Customers.find().then((result) => {
+//       res.send(result);
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
-// Lägger till användare
-app.post("/create-customer", async (req, res) => {
-  try {
-    const customer = new Customers({
-      _id: "test@testsson.test",
-      firstName: "Test",
-      lastName: "Testsson",
-      address: "Testgatan 1",
-      password: "1234",
-    });
+// // Lägger till användare
+// app.post("/create-customer", async (req, res) => {
+//   try {
+//     const customer = new Customers({
+//       _id: "test@testsson.test",
+//       firstName: "Test",
+//       lastName: "Testsson",
+//       address: "Testgatan 1",
+//       password: "1234",
+//     });
 
-    customer.save().then((result) => {
-      res.send(result);
-    });
-  } catch (error) {
-    console.log(error);
-  }
-});
+//     customer.save().then((result) => {
+//       res.send(result);
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
-// Uppdaterar existerande användare
-app.put("/update-customer", async (req, res) => {
-  try {
-    Customers.findByIdAndUpdate("test@testsson.test", {
-      firstName: "Sanna",
-      lastName: "Silje",
-      address: "Siljegatan 2",
-    }).then((result) => {
-      res.send(result);
-    });
-  } catch (error) {
-    console.log(error);
-  }
-});
+// // Uppdaterar existerande användare
+// app.put("/update-customer", async (req, res) => {
+//   try {
+//     Customers.findByIdAndUpdate("test@testsson.test", {
+//       firstName: "Sanna",
+//       lastName: "Silje",
+//       address: "Siljegatan 2",
+//     }).then((result) => {
+//       res.send(result);
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
 mongoose.connect(url).then(() => {
   console.log("Connected to database");

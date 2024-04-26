@@ -5,7 +5,7 @@ import { IProduct } from "./models/IProduct";
 import { useCart } from "./context/CartContext";
 
 function App() {
-  const [products, setProducts] = useState<IProduct[]>([]);
+  const [products, setProducts] = useState<IProduct[]>([]); // skicka detta props till admin?
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -26,18 +26,18 @@ function App() {
     <>
     
       <h1>A fun webbshop</h1>
-      <div className="container">
-      <ul className="product-list">
+      
+      <ul className="ulContainer">
         {products.map((product) => (
           <li key={product._id}>
-            <div className="product">
-            <div className="product-wrapper">
+            <div className="productContainer">
+            <div className="imgContainer">
               <img
                 src={product.image}
                 style={{ width: "150px", height: "auto" }}
               />
             </div>
-            <div className="product-info">
+            <div className="priceContainer">
               {product.name} - {product.price} SEK
               <button onClick={() => addToCart(product)} className="button">
                 Buy fun duck
@@ -47,8 +47,9 @@ function App() {
           </li>
         ))}
       </ul>
-      </div>
+      
       <Cart />
+
     </>
   );
 }
