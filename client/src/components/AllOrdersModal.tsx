@@ -34,12 +34,13 @@ export const AllOrdersModal: React.FC<AllOrdersProps> = ({ open, onClose }) => {
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} maxWidth="lg">
       <DialogTitle>All fun orders</DialogTitle>
       <DialogContent>
         <List>
           {allOrders.map((order) => (
-            <ListItem key={order._id}>
+            <div key={order._id}>
+              <hr />
               <ListItemText
                 primary={`Order ID: ${order._id}`}
                 secondary={`Customer: ${order.customer}, Order Date: ${new Date(
@@ -60,7 +61,8 @@ export const AllOrdersModal: React.FC<AllOrdersProps> = ({ open, onClose }) => {
                     />
                   </div>
                 ))}
-            </ListItem>
+                <hr />
+            </div>
           ))}
         </List>
       </DialogContent>
