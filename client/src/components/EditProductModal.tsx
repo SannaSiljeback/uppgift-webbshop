@@ -17,7 +17,7 @@ interface EditProductProps {
   product: ICreateProduct;
 }
  
-export const EditProduct: React.FC<EditProductProps> = ({
+export const EditProductModal: React.FC<EditProductProps> = ({
   open,
   onClose,
   onEditProduct,
@@ -34,7 +34,7 @@ export const EditProduct: React.FC<EditProductProps> = ({
  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onEditProduct(productId, localProduct); // Use localProduct for submission
+    onEditProduct(productId, localProduct);
     onClose();
   };
  
@@ -94,10 +94,10 @@ export const EditProduct: React.FC<EditProductProps> = ({
             margin="normal"
           />
           <DialogActions>
-            <Button onClick={onClose} color="primary">
+            <Button onClick={onClose} style={{color: "#2d898b"}}>
               Cancel
             </Button>
-            <Button onClick={handleSubmit} type="submit" color="primary">
+            <Button onClick={handleSubmit} type="submit" style={{color: "#2d898b"}}>
               Edit duck
             </Button>
           </DialogActions>

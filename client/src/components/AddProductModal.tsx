@@ -16,7 +16,7 @@ interface AddProductProps {
   onAddProduct: (product: ICreateProduct) => void;
 }
 
-export const AddProduct: React.FC<AddProductProps> = ({
+export const AddProductModal: React.FC<AddProductProps> = ({
   open,
   onClose,
   onAddProduct,
@@ -102,10 +102,10 @@ export const AddProduct: React.FC<AddProductProps> = ({
             margin="normal"
           />
           <DialogActions>
-            <Button onClick={onClose} color="primary">
+            <Button onClick={onClose} style={{color: "#2d898b"}}>
               Cancel
             </Button>
-            <Button onClick={() => onAddProduct} type="submit" color="primary">
+            <Button onClick={() => onAddProduct} type="submit" style={{color: "#2d898b"}}>
               Add product
             </Button>
           </DialogActions>

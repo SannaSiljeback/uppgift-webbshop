@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
-import { AddProduct } from "./AddProduct";
-import { EditProduct } from "./EditProduct";
+import { AddProductModal } from "./AddProductModal";
+import { EditProductModal } from "./EditProductModal";
 import { IProduct } from "../models/IProduct";
 import { ICreateProduct } from "../models/ICreateProduct";
 import "../styles/admin.css";
+import { AllOrdersModal } from "./AllOrdersModal";
 
 export const Admin = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showOrdersModal, setShowOrdersModal] = useState(false);
+
   const [products, setProducts] = useState<IProduct[]>([]);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null
@@ -27,18 +30,13 @@ export const Admin = () => {
     }
   };
 
-  const handleToggleAddModal = () => {
-    setShowAddModal(!showAddModal);
+ // add functionality
+  const openAddModal = () => {
+    setShowAddModal(true);
   };
 
-  const handleOpenEditModal = (productId: string) => {
-    setSelectedProductId(productId);
-    setShowEditModal(true);
-  };
-
-  const handleCloseEditModal = () => {
-    setShowEditModal(false);
-    setSelectedProductId(null);
+  const closeAddModal = () => {
+    setShowAddModal(false);
   };
 
   const handleAddProduct = async (product: ICreateProduct) => {
@@ -60,6 +58,17 @@ export const Admin = () => {
     } catch (error) {
       console.error("Error adding product:", error);
     }
+  };
+
+  //edit functionality
+  const handleOpenEditModal = (productId: string) => {
+    setSelectedProductId(productId);
+    setShowEditModal(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+    setSelectedProductId(null);
   };
 
   const handleEditProduct = async (
@@ -86,12 +95,22 @@ export const Admin = () => {
     }
   };
 
+  //orders functionality
+  const openOrdersModal = () => {
+    setShowOrdersModal(true);
+  };
+
+  const closeOrdersModal = () => {
+    setShowOrdersModal(false);
+  };
+
+  //delete functionality
   const deleteProduct = async (productId: string) => {
     try {
       const response = await fetch(`/api/delete-product/${productId}`, {
         method: "DELETE",
       });
- 
+
       if (response.ok) {
         console.log("Product deleted:", productId);
         fetchProducts();
@@ -103,57 +122,64 @@ export const Admin = () => {
     }
   };
 
-  const toggleOrderModal = () => {
-    
-  };
-
 
   return (
     <>
       <h1>Fun admin page</h1>
-      <button className="admin-add-button" onClick={handleToggleAddModal}>Add a fun duck</button>
-      <AddProduct
+      <button className="admin-other-button" onClick={openAddModal}>
+        Add a fun duck
+      </button>
+      <AddProductModal
         open={showAddModal}
-        onClose={handleToggleAddModal}
+        onClose={closeAddModal}
         onAddProduct={handleAddProduct}
       />
 
-      <button onClick={toggleOrderModal}>All ordered ducks</button>
+      <button className="admin-other-button" onClick={openOrdersModal}>
+        Show orders
+      </button>
+      <AllOrdersModal open={showOrdersModal} onClose={closeOrdersModal} />
 
-      <ul className="product-list">
+      <ul className="ulContainer">
         {products.map((product) => (
           <li key={product._id}>
             <div className="admin-product">
-            <div className="product-wrapper">
-              <img
-                src={product.image}
-                style={{ width: "150px", height: "auto" }}
-                alt={product.name}
-              />
-              <div className="product-info">
-                <p>
-                  {product.name} - {product.price} SEK
-                </p>
-                <button className="admin-button" onClick={() => handleOpenEditModal(product._id)}>
-                  Edit duck
-                </button>
-                <button className="admin-button" onClick={() => deleteProduct(product._id)}>
-                  Delete duck
-                </button>
-                {selectedProductId && (
-                  <EditProduct
-                    open={showEditModal}
-                    onClose={handleCloseEditModal}
-                    onEditProduct={handleEditProduct}
-                    productId={selectedProductId}
-                    product={
-                      products.find(
-                        (p) => p._id === selectedProductId
-                      ) as ICreateProduct
-                    }
-                  />
-                )}
-              </div>
+              <div className="imgContainer">
+                <img
+                  src={product.image}
+                  style={{ width: "150px", height: "auto" }}
+                  alt={product.name}
+                />
+                <div className="priceContainer">
+                  <p>
+                    {product.name} - {product.price} SEK
+                  </p>
+                  <button
+                    className="admin-button"
+                    onClick={() => handleOpenEditModal(product._id)}
+                  >
+                    Edit duck
+                  </button>
+                  <button
+                    className="admin-button"
+                    onClick={() => deleteProduct(product._id)}
+                  >
+                    Delete duck
+                  </button>
+                  {selectedProductId && (
+                    <EditProductModal
+                      open={showEditModal}
+                      onClose={handleCloseEditModal}
+                      onEditProduct={handleEditProduct}
+                      productId={selectedProductId}
+                      product={
+                        products.find(
+                          (p) => p._id === selectedProductId
+                        ) as ICreateProduct
+                      }
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </li>

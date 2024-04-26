@@ -45,6 +45,7 @@ app.post("/create-product", async (req, res) => {
   }
 });
 
+//ändra till edit i namn?
 app.put("/update-product/:id", async (req, res) => {
   try {
     const { name, description, price, image, inStock, status } = req.body;
@@ -82,7 +83,6 @@ app.delete("/delete-product/:id", async (req, res) => {
   }
 });
 
-
 //ORDRAR
 //är för admin, hämtar ordrar med detaljer
 app.get("/orders-with-details", async (req, res) => {
@@ -113,20 +113,8 @@ app.get("/orders-with-details", async (req, res) => {
           ],
         },
       },
-      //behövs ej om vi ej har costumer?
-      // {
-      //   $lookup: {
-      //     from: "customers",
-      //     localField: "customerId",
-      //     foreignField: "_id",
-      //     as: "linkedCustomer",
-      //   },
-      // },
       {
         $addFields: {
-          // linkedCustomer: {
-          //   $first: "$linkedCustomer",
-          // },
           calculatedTotal: {
             $sum: "$lineItems.totalPrice",
           },
@@ -162,9 +150,6 @@ app.post("/create-order", async (req, res) => {
   }
 });
 
-
-
-
 ///BEHÖVS EJ?
 // Uppdaterar existerande order
 app.put("/update-order", async (req, res) => {
@@ -179,10 +164,6 @@ app.put("/update-order", async (req, res) => {
   }
 });
 
-
-
-
-
 //TA BORT OM MAN EJ HAR INLOGG
 //CUSTOMERS
 //Hämtar användare
@@ -196,24 +177,24 @@ app.put("/update-order", async (req, res) => {
 //   }
 // });
 
-// // Lägger till användare
-// app.post("/create-customer", async (req, res) => {
-//   try {
-//     const customer = new Customers({
-//       _id: "test@testsson.test",
-//       firstName: "Test",
-//       lastName: "Testsson",
-//       address: "Testgatan 1",
-//       password: "1234",
-//     });
+// Lägger till användare, behövs vid göra order?
+app.post("/create-customer", async (req, res) => {
+  try {
+    const customer = new Customers({
+      _id: "test@testsson.test",
+      firstName: "Test",
+      lastName: "Testsson",
+      address: "Testgatan 1",
+      password: "1234",
+    });
 
-//     customer.save().then((result) => {
-//       res.send(result);
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
+    customer.save().then((result) => {
+      res.send(result);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 // // Uppdaterar existerande användare
 // app.put("/update-customer", async (req, res) => {
