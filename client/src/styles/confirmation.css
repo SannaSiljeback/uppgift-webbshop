@@ -1,0 +1,19 @@
+.confirmationContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirmationButton {
+  background-color: #57c5c7;
+  border-radius: 30px;
+  color: black;
+  width: 180px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.1em;
+  margin-top: 15px;
+  cursor: pointer;
+}

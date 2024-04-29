@@ -5,6 +5,9 @@ import { IProduct } from "../models/IProduct";
 import { GiPlasticDuck } from "react-icons/gi";
 import "../styles/cart.css";
 import { CiTrash } from "react-icons/ci";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+
+
 
 export const Cart = () => {
   const { cart, addToCart, removeFromCart, decreaseQuantity } = useCart();
@@ -17,6 +20,8 @@ export const Cart = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [address, setAddress] = useState("");
+
+  const navigate = useNavigate();
 
   //cart items funktionality
   const handleIncrement = (productId: string) => {
@@ -93,11 +98,7 @@ export const Cart = () => {
       quantity: item.quantity,
     }));
 
-    // const totalPrice = lineItems.reduce(
-    //   (total, item) => total + item.price * item.quantity,
-    //   0
-    // );
-    // console.log("This is your total price:", totalPrice);
+  
 
     try {
       fetch("/api/create-order", {
@@ -121,6 +122,9 @@ export const Cart = () => {
           console.log("Order placed successfully");
           setShowCustomerForm(false);
           setOpenCart(false);
+          navigate("/confirmation");
+        
+          
         } else {
           console.error("Failed to place order");
         }
