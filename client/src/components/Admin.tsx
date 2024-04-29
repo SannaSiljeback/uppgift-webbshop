@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AddProductModal } from "./AddProductModal";
 import { EditProductModal } from "./EditProductModal";
 import { IProduct } from "../models/IProduct";
@@ -7,30 +7,18 @@ import "../styles/admin.css";
 import { AllOrdersModal } from "./AllOrdersModal";
 import { Link } from "react-router-dom";
 
-export const Admin = () => {
+interface IAdminProps {
+  products: IProduct[];
+  fetchProducts: () => void;
+}
+
+export const Admin: React.FC<IAdminProps> = ({products, fetchProducts}) => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showOrdersModal, setShowOrdersModal] = useState(false);
-
-  const [products, setProducts] = useState<IProduct[]>([]);
-
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null
   );
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const fetchProducts = async () => {
-    try {
-      const response = await fetch("/api/");
-      const data = await response.json();
-      setProducts(data);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    }
-  };
 
   // add functionality
   const openAddModal = () => {
