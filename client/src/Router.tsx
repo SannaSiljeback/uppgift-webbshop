@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { NotFound } from "./components/NotFound";
 import App from "./App";
 import { Confirmation } from "./components/Confirmation";
-import { Admin } from "./components/Admin";
+import { AdminWrapper } from "./components/AdminWrapper";
 
 
 export const Router = createBrowserRouter([{
@@ -21,7 +21,7 @@ export const Router = createBrowserRouter([{
         },
         {
             path: "/admin",
-            element: <Admin />,
+            element: <AdminWrapper />,
             errorElement: <NotFound />,
         }
     ]

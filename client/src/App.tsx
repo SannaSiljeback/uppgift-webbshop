@@ -4,17 +4,16 @@ import { Cart } from "./components/Cart";
 import { IProduct } from "./models/IProduct";
 import { useCart } from "./context/CartContext";
 import { Link } from "react-router-dom";
+import { ShowProducts } from "./components/ShowProdutcs";
 
 function App() {
-  const [products, setProducts] = useState<IProduct[]>([]); // skicka detta props till admin?
+  const [products, setProducts] = useState<IProduct[]>([]);
   const { addToCart } = useCart();
 
   const [showLogin, setShowLogin] = useState(false);
   const [adminLogin, setAdminLogin] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const adminUsername = "admin";
-  const adminPassword = "admin123";
 
   useEffect(() => {
     fetchProducts();
@@ -35,6 +34,9 @@ function App() {
   };
 
   const handleAdminLogin = () => {
+    const adminUsername = "admin";
+    const adminPassword = "admin123";
+
     if (username === adminUsername && password === adminPassword) {
       setAdminLogin(true);
     } else {
@@ -46,26 +48,7 @@ function App() {
     <>
       <h1>A fun webbshop</h1>
 
-      <ul className="ulContainer">
-        {products.map((product) => (
-          <li key={product._id}>
-            <div className="productContainer">
-              <div className="imgContainer">
-                <img
-                  src={product.image}
-                  style={{ width: "150px", height: "auto" }}
-                />
-              </div>
-              <div className="priceContainer">
-                {product.name} - {product.price} SEK
-                <button onClick={() => addToCart(product)} className="button">
-                  Buy fun duck
-                </button>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <ShowProducts products={products} addToCart={addToCart} />
 
       <Cart />
 

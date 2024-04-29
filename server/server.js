@@ -219,23 +219,23 @@ app.put("/update-order", async (req, res) => {
 // });
 
 // Lägger till användare, behövs vid göra order?
-app.post("/create-customer", async (req, res) => {
-  try {
-    const customer = new Customers({
-      _id: "test@testsson.test",
-      firstName: "Test",
-      lastName: "Testsson",
-      address: "Testgatan 1",
-      password: "1234",
-    });
+// app.post("/create-customer", async (req, res) => {
+//   try {
+//     const customer = new Customers({
+//       _id: "test@testsson.test",
+//       firstName: "Test",
+//       lastName: "Testsson",
+//       address: "Testgatan 1",
+//       password: "1234",
+//     });
 
-    customer.save().then((result) => {
-      res.send(result);
-    });
-  } catch (error) {
-    console.log(error);
-  }
-});
+//     customer.save().then((result) => {
+//       res.send(result);
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
 // // Uppdaterar existerande användare
 // app.put("/update-customer", async (req, res) => {
