@@ -1,3 +1,13 @@
+export interface IOrder {
+  _id: string;
+  customer: string;
+  orderDate: string;
+  status: string;
+  totalPrice: number;
+  paymentId: string;
+  lineItems: ILineItem[];
+}
+
 export interface ILineItem {
     _id: string;
     orderId: string;
@@ -16,14 +26,4 @@ export interface ILineItem {
       updatedAt: string;
       __v: number;
     };
-  }
-  
- export interface IOrder {
-    _id: string;
-    customer: string;
-    orderDate: string;
-    status: string;
-    totalPrice: number;
-    paymentId: string;
-    lineItems: ILineItem[];
   }

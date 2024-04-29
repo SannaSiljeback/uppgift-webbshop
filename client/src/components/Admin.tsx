@@ -5,6 +5,7 @@ import { IProduct } from "../models/IProduct";
 import { ICreateProduct } from "../models/ICreateProduct";
 import "../styles/admin.css";
 import { AllOrdersModal } from "./AllOrdersModal";
+import { Link } from "react-router-dom";
 
 export const Admin = () => {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -12,6 +13,7 @@ export const Admin = () => {
   const [showOrdersModal, setShowOrdersModal] = useState(false);
 
   const [products, setProducts] = useState<IProduct[]>([]);
+
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null
   );
@@ -30,7 +32,7 @@ export const Admin = () => {
     }
   };
 
- // add functionality
+  // add functionality
   const openAddModal = () => {
     setShowAddModal(true);
   };
@@ -106,6 +108,14 @@ export const Admin = () => {
 
   //delete functionality
   const deleteProduct = async (productId: string) => {
+    const confirmMessage = confirm(
+      "Are you sure you want to delete this duck?"
+    );
+
+    if (!confirmMessage) {
+      return;
+    }
+
     try {
       const response = await fetch(`/api/delete-product/${productId}`, {
         method: "DELETE",
@@ -122,11 +132,14 @@ export const Admin = () => {
     }
   };
 
-
   return (
     <>
       <h1>Fun admin page</h1>
-      <button className="admin-other-button" onClick={openAddModal}>
+      <button className="homeButton">
+        <Link to="/" style={{color: "black"}}>Home</Link>
+      </button>
+      
+      <button className="adminOtherButtons" onClick={openAddModal} style={{position: "fixed", top: "15px", right: "210px"}}>
         Add a fun duck
       </button>
       <AddProductModal
@@ -135,7 +148,7 @@ export const Admin = () => {
         onAddProduct={handleAddProduct}
       />
 
-      <button className="admin-other-button" onClick={openOrdersModal}>
+      <button className="adminOtherButtons" onClick={openOrdersModal} style={{position: "fixed", top: "15px", right: "15px"}}>
         Show orders
       </button>
       <AllOrdersModal open={showOrdersModal} onClose={closeOrdersModal} />
@@ -143,7 +156,7 @@ export const Admin = () => {
       <ul className="ulContainer">
         {products.map((product) => (
           <li key={product._id}>
-            <div className="admin-product">
+            <div className="adminContainer">
               <div className="imgContainer">
                 <img
                   src={product.image}
@@ -155,13 +168,13 @@ export const Admin = () => {
                     {product.name} - {product.price} SEK
                   </p>
                   <button
-                    className="admin-button"
+                    className="adminButtons"
                     onClick={() => handleOpenEditModal(product._id)}
                   >
                     Edit duck
                   </button>
                   <button
-                    className="admin-button"
+                    className="adminButtons"
                     onClick={() => deleteProduct(product._id)}
                   >
                     Delete duck
