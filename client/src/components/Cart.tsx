@@ -93,11 +93,11 @@ export const Cart = () => {
       quantity: item.quantity,
     }));
 
-    const totalPrice = lineItems.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
-    console.log("This is your total price:", totalPrice);
+    // const totalPrice = lineItems.reduce(
+    //   (total, item) => total + item.price * item.quantity,
+    //   0
+    // );
+    // console.log("This is your total price:", totalPrice);
 
     try {
       fetch("/api/create-order", {
@@ -112,17 +112,15 @@ export const Cart = () => {
           address: address,
           orderDate: new Date().toISOString(),
           status: "paid",
-          totalPrice: totalPrice,
+          totalPrice: calculateTotal(),
           lineItems: lineItems,
           paymentId: "1234",
         }),
       }).then((response) => {
         if (response.ok) {
           console.log("Order placed successfully");
-          setEmail("");
-          setFirstName("");
-          setLastName("");
-          setAddress("");
+          setShowCustomerForm(false);
+          setOpenCart(false);
         } else {
           console.error("Failed to place order");
         }

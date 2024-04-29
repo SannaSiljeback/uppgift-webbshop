@@ -1,29 +1,32 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const customerSchema = new Schema({
+const customerSchema = new Schema(
+  {
     _id: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
+      type: String,
+      required: true,
     },
     firstName: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     lastName: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     address: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     password: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
-}, { timestamps: true });
+  },
+  { timestamps: true }
+);
 
-const Customers = mongoose.model('customers', customerSchema);
+const Customers = mongoose.model("customers", customerSchema);
 
 module.exports = Customers;

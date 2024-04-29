@@ -167,17 +167,17 @@ app.post("/create-order", async (req, res) => {
     })
 
     //skicka med lineitems här??
-    const savedLineItems = await Promise.all(lineItems.map(item => {
+   await Promise.all(lineItems.map(item => {
+      console.log(item);
       const lineItem = new LineItems({
         _id: new mongoose.Types.ObjectId(),
         orderId: order._id,
         quantity: item.quantity,
         productId: item.productId,
-        totalPrice: item.totalPrice,
+        totalPrice: item.price*item.quantity,
       });
       return lineItem.save();
     }));
-
     
 
     await Promise.all([customer.save(), order.save()]);

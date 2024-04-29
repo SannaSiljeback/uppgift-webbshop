@@ -53,15 +53,17 @@ export const AllOrdersModal: React.FC<AllOrdersProps> = ({ open, onClose }) => {
               />
 
               {order.lineItems &&
-                order.lineItems.map((item) => (
-                  <div key={item._id}>
+                order.lineItems.map((item) => {
+                  console.log(item);
+                  
+                  return <div key={item._id}>
                     <ListItemText
                       primary={`Product: ${item.linkedProduct.name}`}
-                      secondary={`Amount: ${item.amount}, Total Price: ${item.totalPrice} SEK`}
+                      secondary={`Amount: ${item.quantity}, Total Price: ${item.totalPrice} SEK`}
                     />
-                  </div>
-                ))}
-                <hr />
+                  </div>;
+                })}
+              <hr />
             </div>
           ))}
         </List>
