@@ -5,22 +5,19 @@ import { IProduct } from "../models/IProduct";
 import { GiPlasticDuck } from "react-icons/gi";
 import "../styles/cart.css";
 import { CiTrash } from "react-icons/ci";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-
-
+import { useNavigate } from "react-router-dom";
 
 export const Cart = () => {
   const { cart, addToCart, removeFromCart, decreaseQuantity } = useCart();
   const [openCart, setOpenCart] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null);
   console.log(selectedProduct);
-
+  
   const [showCustomerForm, setShowCustomerForm] = useState(false);
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [address, setAddress] = useState("");
-
   const navigate = useNavigate();
 
   //cart items funktionality
@@ -98,8 +95,6 @@ export const Cart = () => {
       quantity: item.quantity,
     }));
 
-  
-
     try {
       fetch("/api/create-order", {
         method: "POST",
@@ -123,8 +118,6 @@ export const Cart = () => {
           setShowCustomerForm(false);
           setOpenCart(false);
           navigate("/confirmation");
-        
-          
         } else {
           console.error("Failed to place order");
         }
