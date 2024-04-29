@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AddProductModal } from "./AddProductModal";
 import { EditProductModal } from "./EditProductModal";
 import { IProduct } from "../models/IProduct";
@@ -12,13 +12,17 @@ interface IAdminProps {
   fetchProducts: () => void;
 }
 
-export const Admin: React.FC<IAdminProps> = ({products, fetchProducts}) => {
+export const Admin: React.FC<IAdminProps> = ({ products, fetchProducts }) => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showOrdersModal, setShowOrdersModal] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null
   );
+
+  useEffect(() => {
+    fetchProducts();
+  }, [products]);
 
   // add functionality
   const openAddModal = () => {
@@ -124,10 +128,16 @@ export const Admin: React.FC<IAdminProps> = ({products, fetchProducts}) => {
     <>
       <h1>Fun admin page</h1>
       <button className="homeButton">
-        <Link to="/" style={{color: "black"}}>Home</Link>
+        <Link to="/" style={{ color: "black" }}>
+          Home
+        </Link>
       </button>
-      
-      <button className="adminOtherButtons" onClick={openAddModal} style={{position: "fixed", top: "15px", right: "210px"}}>
+
+      <button
+        className="adminOtherButtons"
+        onClick={openAddModal}
+        style={{ position: "fixed", top: "15px", right: "210px" }}
+      >
         Add a fun duck
       </button>
       <AddProductModal
@@ -136,7 +146,11 @@ export const Admin: React.FC<IAdminProps> = ({products, fetchProducts}) => {
         onAddProduct={handleAddProduct}
       />
 
-      <button className="adminOtherButtons" onClick={openOrdersModal} style={{position: "fixed", top: "15px", right: "15px"}}>
+      <button
+        className="adminOtherButtons"
+        onClick={openOrdersModal}
+        style={{ position: "fixed", top: "15px", right: "15px" }}
+      >
         Show orders
       </button>
       <AllOrdersModal open={showOrdersModal} onClose={closeOrdersModal} />
