@@ -4,6 +4,7 @@ import { Cart } from "./components/Cart";
 import { IProduct } from "./models/IProduct";
 import { useCart } from "./context/CartContext";
 import { Link } from "react-router-dom";
+import { ShowProducts } from "./components/ShowProdutcs";
 
 function App() {
   const [products, setProducts] = useState<IProduct[]>([]); // skicka detta props till admin?
@@ -46,26 +47,8 @@ function App() {
     <>
       <h1>A fun webbshop</h1>
 
-      <ul className="ulContainer">
-        {products.map((product) => (
-          <li key={product._id}>
-            <div className="productContainer">
-              <div className="imgContainer">
-                <img
-                  src={product.image}
-                  style={{ width: "150px", height: "auto" }}
-                />
-              </div>
-              <div className="priceContainer">
-                {product.name} - {product.price} SEK
-                <button onClick={() => addToCart(product)} className="button">
-                  Buy fun duck
-                </button>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+
+      <ShowProducts products={products} addToCart={addToCart} />
 
       <Cart />
 
