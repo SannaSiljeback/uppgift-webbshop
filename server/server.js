@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const Customers = require("./models/customers");
 const Products = require("./models/products");
 const Orders = require("./models/orders");
+const LineItems = require("./models/lineItems");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -90,16 +91,16 @@ app.get("/orders-with-details", async (req, res) => {
     const pipeline = [
       {
         $lookup: {
-          from: "lineItems",
-          localField: "orderId",
-          foreignField: "id",
+          from: "lineitems",
+          localField: "_id",
+          foreignField: "orderId",
           as: "lineItems",
           pipeline: [
             {
               $lookup: {
                 from: "products",
                 localField: "productId",
-                foreignField: "id",
+                foreignField: "_id",
                 as: "linkedProduct",
               },
             },
@@ -114,7 +115,18 @@ app.get("/orders-with-details", async (req, res) => {
         },
       },
       {
+        $lookup: {
+          from: "customers",
+          localField: "customer",
+          foreignField: "_id",
+          as: "linkedCustomer",
+        },
+      },
+      {
         $addFields: {
+          linkedCustomer: {
+            $first: "$linkedCustomer",
+          },
           calculatedTotal: {
             $sum: "$lineItems.totalPrice",
           },
@@ -132,19 +144,48 @@ app.get("/orders-with-details", async (req, res) => {
 
 // Lägger till ordrar, ska kopplas till cart, köp knappen, behövs en lookup med en lineitems
 app.post("/create-order", async (req, res) => {
+  
   try {
+
+    const { email, firstName, lastName, address, status, totalPrice, paymentId, lineItems } = req.body;
+
     const order = new Orders({
-      _id: "6789",
-      customer: "test@testsson.test",
+      _id: new mongoose.Types.ObjectId(),
+      customer: email,
       orderDate: new Date(),
-      status: "unpaid",
-      totalPrice: 20,
-      paymentId: "unpaid",
+      status: status,
+      totalPrice: totalPrice,
+      paymentId: paymentId,
     });
 
-    order.save().then((result) => {
-      res.send(result);
-    });
+    const customer = new Customers({
+      _id: email,
+      firstName: firstName,
+      lastName: lastName,
+      address: address,
+      password: "1234",
+    })
+
+    //skicka med lineitems här??
+    const savedLineItems = await Promise.all(lineItems.map(item => {
+      const lineItem = new LineItems({
+        _id: new mongoose.Types.ObjectId(),
+        orderId: order._id,
+        quantity: item.quantity,
+        productId: item.productId,
+        totalPrice: item.totalPrice,
+      });
+      return lineItem.save();
+    }));
+
+    
+
+    await Promise.all([customer.save(), order.save()]);
+
+    res.status(201).json({ message: "Order created successfully" });
+    // order.save().then((result) => {
+    //   res.send(result);
+    // });
   } catch (error) {
     console.log(error);
   }

@@ -7,11 +7,12 @@
 .modalDiv {
   padding: 20px;
   background-color: #fdf9ec;
-  width: 270px;
+  width: 350px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   max-height: 80vh;
   overflow-y: auto;
+
 }
 
 .duck {

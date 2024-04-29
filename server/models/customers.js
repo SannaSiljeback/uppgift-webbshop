@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const customerSchema = new Schema({
     _id: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
     firstName: {

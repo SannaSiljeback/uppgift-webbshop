@@ -12,6 +12,13 @@ export const Cart = () => {
   const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null);
   console.log(selectedProduct);
 
+  const [showCustomerForm, setShowCustomerForm] = useState(false);
+  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [address, setAddress] = useState("");
+
+  //cart items funktionality
   const handleIncrement = (productId: string) => {
     const product = cart.find((item) => item.product._id === productId);
     if (product) {
@@ -37,6 +44,7 @@ export const Cart = () => {
     removeFromCart(product); // Call removeFromCart function from the context
   };
 
+  //modal functionality
   const handleOpenModal = (product: IProduct) => {
     setSelectedProduct(product);
     setOpenCart(true);
@@ -53,6 +61,77 @@ export const Cart = () => {
   };
   console.log(handleAddToCart); //ska ha?
 
+  //customer form functionality
+  const handleCustomerForm = () => {
+    setShowCustomerForm(true);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+  };
+
+  const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setFirstName(value);
+  };
+
+  const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setLastName(value);
+  };
+
+  const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setAddress(value);
+  };
+
+  const handleBuyOrder = () => {
+    const lineItems = cart.map((item) => ({
+      productId: item.product._id,
+      price: item.product.price,
+      quantity: item.quantity,
+    }));
+
+    const totalPrice = lineItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
+    console.log("This is your total price:", totalPrice);
+
+    try {
+      fetch("/api/create-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+          address: address,
+          orderDate: new Date().toISOString(),
+          status: "paid",
+          totalPrice: totalPrice,
+          lineItems: lineItems,
+          paymentId: "1234",
+        }),
+      }).then((response) => {
+        if (response.ok) {
+          console.log("Order placed successfully");
+          setEmail("");
+          setFirstName("");
+          setLastName("");
+          setAddress("");
+        } else {
+          console.error("Failed to place order");
+        }
+      });
+    } catch (error) {
+      console.error("Error placing order", error);
+    }
+  };
+
   return (
     <>
       <button onClick={() => setOpenCart(!openCart)} className="cartButton">
@@ -65,69 +144,101 @@ export const Cart = () => {
         aria-describedby="modal-modal-description"
         className="modal"
       >
-        <div className="modalDiv">
-          <button onClick={handleCloseModal} className="closeButton">
-            X
-          </button>
-          <h2>Cart:</h2>
-          <h3>Products:</h3>
-          <div className="itemContainer">
-            {cart.map((item) => (
-              <div key={item.product._id} style={{ marginBottom: "10px" }}>
-                <hr style={{ marginBottom: "20px" }} />
-                <img
-                  src={item.product.image}
-                  alt={item.product.name}
-                  style={{ width: "100px", marginRight: "10px" }}
-                />
-                <div>
-                  <h4>{item.product.name}</h4>
-                  <p>Price: {item.product.price} kr</p>
-                  <div className="buttonContainer">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDecrement(item.product._id);
-                      }}
-                      className="quantityButton"
-                    >
-                      -
-                    </button>
-                    <p
-                      style={{
-                        marginRight: "5px",
-                        padding: "5px 10px",
-                        fontSize: "15px",
-                      }}
-                    >
-                      Quantity: {item.quantity}
-                    </p>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleIncrement(item.product._id);
-                      }}
-                      className="quantityButton"
-                    >
-                      +
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleRemoveItem(item.product);
-                      }}
-                      className="deleteButton"
-                    >
-                      <CiTrash />
-                    </button>
+        <>
+          <div className="modalDiv">
+            <button onClick={handleCloseModal} className="closeButton">
+              X
+            </button>
+            <h2>Cart:</h2>
+            <h3>Products:</h3>
+            <div className="itemContainer">
+              {cart.map((item) => (
+                <div key={item.product._id} style={{ marginBottom: "10px" }}>
+                  <hr style={{ marginBottom: "20px" }} />
+                  <img
+                    src={item.product.image}
+                    alt={item.product.name}
+                    style={{ width: "100px", marginRight: "10px" }}
+                  />
+                  <div>
+                    <h4>{item.product.name}</h4>
+                    <p>Price: {item.product.price} kr</p>
+                    <div className="buttonContainer">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDecrement(item.product._id);
+                        }}
+                        className="quantityButton"
+                      >
+                        -
+                      </button>
+                      <p
+                        style={{
+                          marginRight: "5px",
+                          padding: "5px 10px",
+                          fontSize: "15px",
+                        }}
+                      >
+                        Quantity: {item.quantity}
+                      </p>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleIncrement(item.product._id);
+                        }}
+                        className="quantityButton"
+                      >
+                        +
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRemoveItem(item.product);
+                        }}
+                        className="deleteButton"
+                      >
+                        <CiTrash />
+                      </button>
+                    </div>
                   </div>
                 </div>
+              ))}
+            </div>
+            <h3>Total: {calculateTotal()} kr</h3>
+            <button className="buyCartButton" onClick={handleCustomerForm}>
+              Continue to checkout
+            </button>
+
+            {showCustomerForm && (
+              <div className="customerForm">
+                <input
+                  type="text"
+                  placeholder="Email"
+                  onChange={handleEmailChange}
+                />
+                <input
+                  type="text"
+                  placeholder="Firstname"
+                  onChange={handleFirstNameChange}
+                />
+                <input
+                  type="text"
+                  placeholder="Lastname"
+                  onChange={handleLastNameChange}
+                />
+                <input
+                  type="text"
+                  placeholder="Address"
+                  onChange={handleAddressChange}
+                />
+                <button style={{ display: "block" }} onClick={handleBuyOrder}>
+                  Buy this fun cart
+                </button>
               </div>
-            ))}
+            )}
           </div>
-          <h3>Total: {calculateTotal()} kr</h3>
-          <button className="buyCartButton">Buy this fun cart</button>
-        </div>
+        </>
       </Modal>
     </>
   );

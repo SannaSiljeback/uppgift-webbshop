@@ -1,6 +1,8 @@
 export interface IOrder {
+  customerEmail: string;
   _id: string;
   customer: string;
+  address: string;
   orderDate: string;
   status: string;
   totalPrice: number;
@@ -10,20 +12,11 @@ export interface IOrder {
 
 export interface ILineItem {
     _id: string;
-    orderId: string;
-    amount: number;
+    quantity: number;
     product: string;
     totalPrice: number;
     linkedProduct: {
-      _id: string;
-      name: string;
-      description: string;
-      price: number;
       image: string;
-      inStock: number;
-      status: string;
-      createdAt: string;
-      updatedAt: string;
-      __v: number;
+      name: string;
     };
   }
