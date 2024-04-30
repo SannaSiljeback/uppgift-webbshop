@@ -6,12 +6,12 @@ import { GiPlasticDuck } from "react-icons/gi";
 import "../styles/cart.css";
 import { CiTrash } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const Cart = () => {
   const { cart, addToCart, removeFromCart, decreaseQuantity } = useCart();
   const [openCart, setOpenCart] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null);
-  console.log(selectedProduct);
   const [showCustomerForm, setShowCustomerForm] = useState(false);
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -42,7 +42,7 @@ export const Cart = () => {
   };
 
   const removeItemFunction = (product: IProduct) => {
-    removeFromCart(product); // Call removeFromCart function from the context
+    removeFromCart(product);
   };
 
   //MODAL functionality
@@ -50,7 +50,6 @@ export const Cart = () => {
     setSelectedProduct(product);
     setOpenCart(true);
   };
-  console.log(handleOpenModal); //ska ha?
 
   const handleCloseModal = () => {
     setOpenCart(false);
@@ -60,7 +59,6 @@ export const Cart = () => {
   const handleAddToCart = (product: IProduct) => {
     addToCart(product);
   };
-  console.log(handleAddToCart); //ska ha?
 
   //CUSTOMER FORM functionality
   const handleCustomerForm = () => {
@@ -87,32 +85,72 @@ export const Cart = () => {
     setAddress(value);
   };
 
+  //GAMMAL, ha kvar ifall
+  // const buyOrderFunction = () => {
+  //   const lineItems = cart.map((item) => ({
+  //     productId: item.product._id,
+  //     price: item.product.price,
+  //     quantity: item.quantity,
+  //   }));
+
+  //   try {
+  //     fetch("/api/create-order", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         email: email,
+  //         firstName: firstName,
+  //         lastName: lastName,
+  //         address: address,
+  //         orderDate: new Date().toISOString(),
+  //         status: "paid",
+  //         totalPrice: calculateTotal(),
+  //         lineItems: lineItems,
+  //         paymentId: "1234",
+  //       }),
+  //     }).then((response) => {
+  //       if (response.ok) {
+  //         console.log("Order placed successfully");
+  //         setShowCustomerForm(false);
+  //         setOpenCart(false);
+  //         navigate("/confirmation");
+  //       } else {
+  //         console.error("Could not place order");
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.error("Error placing order", error);
+  //   }
+  // };
+
   const buyOrderFunction = () => {
     const lineItems = cart.map((item) => ({
       productId: item.product._id,
       price: item.product.price,
       quantity: item.quantity,
     }));
-
+  
     try {
-      fetch("/api/create-order", {
-        method: "POST",
+      axios.post("/api/create-order", {
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        address: address,
+        orderDate: new Date().toISOString(),
+        status: "paid",
+        totalPrice: calculateTotal(),
+        lineItems: lineItems,
+        paymentId: "1234",
+      }, {
         headers: {
           "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          firstName: firstName,
-          lastName: lastName,
-          address: address,
-          orderDate: new Date().toISOString(),
-          status: "paid",
-          totalPrice: calculateTotal(),
-          lineItems: lineItems,
-          paymentId: "1234",
-        }),
+        }
       }).then((response) => {
-        if (response.ok) {
+        console.log(response.status);
+        
+        if (response.status === 201) {
           console.log("Order placed successfully");
           setShowCustomerForm(false);
           setOpenCart(false);
