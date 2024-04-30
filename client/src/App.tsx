@@ -9,7 +9,6 @@ import { ShowProducts } from "./components/ShowProdutcs";
 function App() {
   const [products, setProducts] = useState<IProduct[]>([]);
   const { addToCart } = useCart();
-
   const [showLogin, setShowLogin] = useState(false);
   const [adminLogin, setAdminLogin] = useState(false);
   const [username, setUsername] = useState("");
@@ -47,9 +46,7 @@ function App() {
   return (
     <>
       <h1>A fun webbshop</h1>
-
       <ShowProducts products={products} addToCart={addToCart} />
-
       <Cart />
 
       {!showLogin && !adminLogin && (

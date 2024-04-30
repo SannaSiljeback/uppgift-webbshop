@@ -1,3 +1,5 @@
+import { ILineItem } from "./ILineItem";
+
 export interface IOrder {
   customerEmail: string;
   _id: string;
@@ -9,14 +11,3 @@ export interface IOrder {
   paymentId: string;
   lineItems: ILineItem[];
 }
-
-export interface ILineItem {
-    _id: string;
-    quantity: number;
-    product: string;
-    totalPrice: number;
-    linkedProduct: {
-      image: string;
-      name: string;
-    };
-  }
