@@ -70,7 +70,7 @@ export const Admin: React.FC<IAdminProps> = ({ products, fetchProducts }) => {
     product: ICreateProduct
   ) => {
     try {
-      const response = await fetch(`/api/update-product/${productId}`, {
+      const response = await fetch(`/api/edit-product/${productId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

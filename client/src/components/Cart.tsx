@@ -12,7 +12,7 @@ export const Cart = () => {
   const [openCart, setOpenCart] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null);
   console.log(selectedProduct);
-  
+
   const [showCustomerForm, setShowCustomerForm] = useState(false);
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -211,23 +211,31 @@ export const Cart = () => {
                   type="text"
                   placeholder="Email"
                   onChange={handleEmailChange}
+                  className="formInput"
                 />
                 <input
                   type="text"
                   placeholder="Firstname"
                   onChange={handleFirstNameChange}
+                  className="formInput"
                 />
                 <input
                   type="text"
                   placeholder="Lastname"
                   onChange={handleLastNameChange}
+                  className="formInput"
                 />
                 <input
                   type="text"
                   placeholder="Address"
                   onChange={handleAddressChange}
+                  className="formInput"
                 />
-                <button style={{ display: "block" }} onClick={handleBuyOrder}>
+                <button
+                  className="buyCartButton"
+                  style={{ display: "block", marginTop: "10px" }}
+                  onClick={handleBuyOrder}
+                >
                   Buy this fun cart
                 </button>
               </div>

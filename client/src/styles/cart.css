@@ -12,7 +12,6 @@
   border-radius: 8px;
   max-height: 80vh;
   overflow-y: auto;
-
 }
 
 .duck {
@@ -93,4 +92,14 @@ h4 {
 p {
   font-size: 1em;
   margin-bottom: 2px;
+}
+
+.customerForm {
+  margin-top: 25px;
+}
+
+.formInput {
+  border-radius: 10px;
+  height: 20px;
+  margin: 3px;
 }

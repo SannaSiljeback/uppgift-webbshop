@@ -7,7 +7,6 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-
 import { ICreateProduct } from "../models/ICreateProduct";
 
 interface AddProductProps {
@@ -22,7 +21,6 @@ export const AddProductModal: React.FC<AddProductProps> = ({
   onAddProduct,
 }) => {
   const [product, setProduct] = useState({
-    
     name: "",
     description: "",
     price: 0,
@@ -42,9 +40,6 @@ export const AddProductModal: React.FC<AddProductProps> = ({
     onAddProduct(product);
     onClose();
   };
-
-  
-
 
   return (
     <Dialog open={open} onClose={onClose}>

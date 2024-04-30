@@ -85,6 +85,8 @@ img {
 
 .loginInput {
   border-radius: 30px;
+  margin: 2px;
+  
 }
 
 .loginButton {
