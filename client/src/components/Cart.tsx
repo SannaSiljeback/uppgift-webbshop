@@ -20,14 +20,14 @@ export const Cart = () => {
   const navigate = useNavigate();
 
   //CART ITEMS functionality
-  const handleIncrement = (productId: string) => {
+  const quantityIncrementFunction = (productId: string) => {
     const product = cart.find((item) => item.product._id === productId);
     if (product) {
       addToCart(product.product);
     }
   };
 
-  const handleDecrement = (productId: string) => {
+  const quantityDecrementFunction = (productId: string) => {
     const product = cart.find((item) => item.product._id === productId);
     if (product && product.quantity > 1) {
       decreaseQuantity(product.product);
@@ -41,7 +41,7 @@ export const Cart = () => {
     );
   };
 
-  const handleRemoveItem = (product: IProduct) => {
+  const removeItemFunction = (product: IProduct) => {
     removeFromCart(product); // Call removeFromCart function from the context
   };
 
@@ -87,7 +87,7 @@ export const Cart = () => {
     setAddress(value);
   };
 
-  const handleBuyOrder = () => {
+  const buyOrderFunction = () => {
     const lineItems = cart.map((item) => ({
       productId: item.product._id,
       price: item.product.price,
@@ -161,7 +161,7 @@ export const Cart = () => {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleDecrement(item.product._id);
+                          quantityDecrementFunction(item.product._id);
                         }}
                         className="quantityButton"
                       >
@@ -179,7 +179,7 @@ export const Cart = () => {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleIncrement(item.product._id);
+                          quantityIncrementFunction(item.product._id);
                         }}
                         className="quantityButton"
                       >
@@ -188,7 +188,7 @@ export const Cart = () => {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleRemoveItem(item.product);
+                          removeItemFunction(item.product);
                         }}
                         className="deleteButton"
                       >
@@ -233,7 +233,7 @@ export const Cart = () => {
                 <button
                   className="buyCartButton"
                   style={{ display: "block", marginTop: "10px" }}
-                  onClick={handleBuyOrder}
+                  onClick={buyOrderFunction}
                 >
                   Buy this fun cart
                 </button>

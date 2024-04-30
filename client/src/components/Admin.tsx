@@ -33,7 +33,7 @@ export const Admin: React.FC<IAdminProps> = ({ products, fetchProducts }) => {
     setShowAddModal(false);
   };
 
-  const handleAddProduct = async (product: ICreateProduct) => {
+  const addProductFunction = async (product: ICreateProduct) => {
     try {
       const response = await fetch("/api/create-product", {
         method: "POST",
@@ -65,10 +65,7 @@ export const Admin: React.FC<IAdminProps> = ({ products, fetchProducts }) => {
     setSelectedProductId(null);
   };
 
-  const handleEditProduct = async (
-    productId: string,
-    product: ICreateProduct
-  ) => {
+  const editProductFunction = async (productId: string, product: ICreateProduct) => {
     try {
       const response = await fetch(`/api/edit-product/${productId}`, {
         method: "PUT",
@@ -99,7 +96,7 @@ export const Admin: React.FC<IAdminProps> = ({ products, fetchProducts }) => {
   };
 
   //DELETE functionality
-  const deleteProduct = async (productId: string) => {
+  const deleteProductFunction = async (productId: string) => {
     const confirmMessage = confirm(
       "Are you sure you want to delete this duck?"
     );
@@ -143,7 +140,7 @@ export const Admin: React.FC<IAdminProps> = ({ products, fetchProducts }) => {
       <AddProductModal
         open={showAddModal}
         onClose={closeAddModal}
-        onAddProduct={handleAddProduct}
+        onAddProduct={addProductFunction}
       />
 
       <button
@@ -177,7 +174,7 @@ export const Admin: React.FC<IAdminProps> = ({ products, fetchProducts }) => {
                   </button>
                   <button
                     className="adminButtons"
-                    onClick={() => deleteProduct(product._id)}
+                    onClick={() => deleteProductFunction(product._id)}
                   >
                     Delete duck
                   </button>
@@ -185,7 +182,7 @@ export const Admin: React.FC<IAdminProps> = ({ products, fetchProducts }) => {
                     <EditProductModal
                       open={showEditModal}
                       onClose={handleCloseEditModal}
-                      onEditProduct={handleEditProduct}
+                      onEditProduct={editProductFunction}
                       productId={selectedProductId}
                       product={
                         products.find(
