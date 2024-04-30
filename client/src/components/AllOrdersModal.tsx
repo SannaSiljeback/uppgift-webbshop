@@ -9,6 +9,7 @@ import {
   Button,
 } from "@mui/material";
 import { IOrder } from "../models/IOrder";
+import axios from "axios";
 
 interface AllOrdersProps {
   open: boolean;
@@ -24,8 +25,8 @@ export const AllOrdersModal: React.FC<AllOrdersProps> = ({ open, onClose }) => {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch("/api/orders-with-details");
-      const data = await response.json();
+      const response = await axios.get("/api/orders-with-details");
+    const data = response.data;
       setAllOrders(data);
     } catch (error) {
       console.error("Error fetching orders", error);

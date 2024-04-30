@@ -6,6 +6,7 @@ import { ICreateProduct } from "../models/ICreateProduct";
 import "../styles/admin.css";
 import { AllOrdersModal } from "./AllOrdersModal";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 interface IAdminProps {
   products: IProduct[];
@@ -33,18 +34,37 @@ export const Admin: React.FC<IAdminProps> = ({ products, fetchProducts }) => {
     setShowAddModal(false);
   };
 
+  // const addProductFunction = async (product: ICreateProduct) => {
+  //   try {
+  //     const response = await fetch("/api/create-product", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(product),
+  //     });
+
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       console.log("Product added", data);
+  //     } else {
+  //       console.error("Could not add product:", response.statusText);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error adding product:", error);
+  //   }
+  // };
+
   const addProductFunction = async (product: ICreateProduct) => {
     try {
-      const response = await fetch("/api/create-product", {
-        method: "POST",
+      const response = await axios.post("/api/create-product", product, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(product),
       });
-
-      if (response.ok) {
-        const data = await response.json();
+  
+      if (response.status === 201) {
+        const data = response.data;
         console.log("Product added", data);
       } else {
         console.error("Could not add product:", response.statusText);
@@ -65,18 +85,37 @@ export const Admin: React.FC<IAdminProps> = ({ products, fetchProducts }) => {
     setSelectedProductId(null);
   };
 
+  // const editProductFunction = async (productId: string, product: ICreateProduct) => {
+  //   try {
+  //     const response = await fetch(`/api/edit-product/${productId}`, {
+  //       method: "PUT",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(product),
+  //     });
+
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       console.log("Product updated", data);
+  //     } else {
+  //       console.error("Could not update product:", response.statusText);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error with updating product:", error);
+  //   }
+  // };
+
   const editProductFunction = async (productId: string, product: ICreateProduct) => {
     try {
-      const response = await fetch(`/api/edit-product/${productId}`, {
-        method: "PUT",
+      const response = await axios.put(`/api/edit-product/${productId}`, product, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(product),
       });
-
-      if (response.ok) {
-        const data = await response.json();
+  
+      if (response.status === 201) {
+        const data = response.data;
         console.log("Product updated", data);
       } else {
         console.error("Could not update product:", response.statusText);
@@ -96,21 +135,42 @@ export const Admin: React.FC<IAdminProps> = ({ products, fetchProducts }) => {
   };
 
   //DELETE functionality
-  const deleteProductFunction = async (productId: string) => {
-    const confirmMessage = confirm(
-      "Are you sure you want to delete this duck?"
-    );
+  // const deleteProductFunction = async (productId: string) => {
+  //   const confirmMessage = confirm(
+  //     "Are you sure you want to delete this duck?"
+  //   );
 
+  //   if (!confirmMessage) {
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await fetch(`/api/delete-product/${productId}`, {
+  //       method: "DELETE",
+  //     });
+
+  //     if (response.ok) {
+  //       console.log("Product deleted", productId);
+  //       fetchProducts();
+  //     } else {
+  //       console.error("Could not delete product:", response.statusText);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error deleting product:", error);
+  //   }
+  // };
+
+  const deleteProductFunction = async (productId: string) => {
+    const confirmMessage = window.confirm("Are you sure you want to delete this duck?");
+  
     if (!confirmMessage) {
       return;
     }
-
+  
     try {
-      const response = await fetch(`/api/delete-product/${productId}`, {
-        method: "DELETE",
-      });
-
-      if (response.ok) {
+      const response = await axios.delete(`/api/delete-product/${productId}`);
+  
+      if (response.status === 201) {
         console.log("Product deleted", productId);
         fetchProducts();
       } else {

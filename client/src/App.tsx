@@ -5,6 +5,7 @@ import { IProduct } from "./models/IProduct";
 import { useCart } from "./context/CartContext";
 import { Link } from "react-router-dom";
 import { ShowProducts } from "./components/ShowProdutcs";
+import axios from "axios";
 
 function App() {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -20,8 +21,8 @@ function App() {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch("/api/");
-      const data = await response.json();
+      const response = await axios.get("/api/");
+      const data = response.data;
       setProducts(data);
     } catch (error) {
       console.error("Error fetching products:", error);
