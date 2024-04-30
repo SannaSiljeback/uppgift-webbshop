@@ -24,7 +24,7 @@ export const Admin: React.FC<IAdminProps> = ({ products, fetchProducts }) => {
     fetchProducts();
   }, [products]);
 
-  // add functionality
+  //ADD functionality
   const openAddModal = () => {
     setShowAddModal(true);
   };
@@ -45,16 +45,16 @@ export const Admin: React.FC<IAdminProps> = ({ products, fetchProducts }) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Product added:", data);
+        console.log("Product added", data);
       } else {
-        console.error("Failed to add product:", response.statusText);
+        console.error("Could not add product:", response.statusText);
       }
     } catch (error) {
       console.error("Error adding product:", error);
     }
   };
 
-  //edit functionality
+  //EDIT functionality
   const handleOpenEditModal = (productId: string) => {
     setSelectedProductId(productId);
     setShowEditModal(true);
@@ -80,16 +80,16 @@ export const Admin: React.FC<IAdminProps> = ({ products, fetchProducts }) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Product updated:", data);
+        console.log("Product updated", data);
       } else {
-        console.error("Failed to update product:", response.statusText);
+        console.error("Could not update product:", response.statusText);
       }
     } catch (error) {
       console.error("Error with updating product:", error);
     }
   };
 
-  //orders functionality
+  //ORDERS functionality
   const openOrdersModal = () => {
     setShowOrdersModal(true);
   };
@@ -98,7 +98,7 @@ export const Admin: React.FC<IAdminProps> = ({ products, fetchProducts }) => {
     setShowOrdersModal(false);
   };
 
-  //delete functionality
+  //DELETE functionality
   const deleteProduct = async (productId: string) => {
     const confirmMessage = confirm(
       "Are you sure you want to delete this duck?"
@@ -114,10 +114,10 @@ export const Admin: React.FC<IAdminProps> = ({ products, fetchProducts }) => {
       });
 
       if (response.ok) {
-        console.log("Product deleted:", productId);
+        console.log("Product deleted", productId);
         fetchProducts();
       } else {
-        console.error("Failed to delete product:", response.statusText);
+        console.error("Could not delete product:", response.statusText);
       }
     } catch (error) {
       console.error("Error deleting product:", error);

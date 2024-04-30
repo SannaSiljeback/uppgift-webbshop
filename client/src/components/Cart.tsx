@@ -12,7 +12,6 @@ export const Cart = () => {
   const [openCart, setOpenCart] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null);
   console.log(selectedProduct);
-
   const [showCustomerForm, setShowCustomerForm] = useState(false);
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -20,7 +19,7 @@ export const Cart = () => {
   const [address, setAddress] = useState("");
   const navigate = useNavigate();
 
-  //cart items funktionality
+  //CART ITEMS functionality
   const handleIncrement = (productId: string) => {
     const product = cart.find((item) => item.product._id === productId);
     if (product) {
@@ -46,7 +45,7 @@ export const Cart = () => {
     removeFromCart(product); // Call removeFromCart function from the context
   };
 
-  //modal functionality
+  //MODAL functionality
   const handleOpenModal = (product: IProduct) => {
     setSelectedProduct(product);
     setOpenCart(true);
@@ -63,7 +62,7 @@ export const Cart = () => {
   };
   console.log(handleAddToCart); //ska ha?
 
-  //customer form functionality
+  //CUSTOMER FORM functionality
   const handleCustomerForm = () => {
     setShowCustomerForm(true);
   };
@@ -119,7 +118,7 @@ export const Cart = () => {
           setOpenCart(false);
           navigate("/confirmation");
         } else {
-          console.error("Failed to place order");
+          console.error("Could not place order");
         }
       });
     } catch (error) {

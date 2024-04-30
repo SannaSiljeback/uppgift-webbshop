@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Admin } from "./Admin";
 
-
 export const AdminWrapper = () => {
   const [products, setProducts] = useState([]);
 

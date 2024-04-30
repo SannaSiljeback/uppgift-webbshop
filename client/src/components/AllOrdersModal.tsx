@@ -4,7 +4,6 @@ import {
   DialogTitle,
   DialogContent,
   List,
-  // ListItem,
   ListItemText,
   DialogActions,
   Button,
@@ -29,7 +28,7 @@ export const AllOrdersModal: React.FC<AllOrdersProps> = ({ open, onClose }) => {
       const data = await response.json();
       setAllOrders(data);
     } catch (error) {
-      console.error("Error fetching orders:", error);
+      console.error("Error fetching orders", error);
     }
   };
 
@@ -55,13 +54,15 @@ export const AllOrdersModal: React.FC<AllOrdersProps> = ({ open, onClose }) => {
               {order.lineItems &&
                 order.lineItems.map((item) => {
                   console.log(item);
-                  
-                  return <div key={item._id}>
-                    <ListItemText
-                      primary={`Product: ${item.linkedProduct.name}`}
-                      secondary={`Amount: ${item.quantity}, Total Price: ${item.totalPrice} SEK`}
-                    />
-                  </div>;
+
+                  return (
+                    <div key={item._id}>
+                      <ListItemText
+                        primary={`Product: ${item.linkedProduct.name}`}
+                        secondary={`Amount: ${item.quantity}, Total Price: ${item.totalPrice} SEK`}
+                      />
+                    </div>
+                  );
                 })}
               <hr />
             </div>
