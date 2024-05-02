@@ -85,46 +85,6 @@ export const Cart = () => {
     setAddress(value);
   };
 
-  //GAMMAL, ha kvar ifall
-  // const buyOrderFunction = () => {
-  //   const lineItems = cart.map((item) => ({
-  //     productId: item.product._id,
-  //     price: item.product.price,
-  //     quantity: item.quantity,
-  //   }));
-
-  //   try {
-  //     fetch("/api/create-order", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         email: email,
-  //         firstName: firstName,
-  //         lastName: lastName,
-  //         address: address,
-  //         orderDate: new Date().toISOString(),
-  //         status: "paid",
-  //         totalPrice: calculateTotal(),
-  //         lineItems: lineItems,
-  //         paymentId: "1234",
-  //       }),
-  //     }).then((response) => {
-  //       if (response.ok) {
-  //         console.log("Order placed successfully");
-  //         setShowCustomerForm(false);
-  //         setOpenCart(false);
-  //         navigate("/confirmation");
-  //       } else {
-  //         console.error("Could not place order");
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.error("Error placing order", error);
-  //   }
-  // };
-
   const buyOrderFunction = () => {
     const lineItems = cart.map((item) => ({
       productId: item.product._id,
